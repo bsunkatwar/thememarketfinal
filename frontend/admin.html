@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ThemeMarket</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <style>
+        :root {
+            --primary-color: #ffc107;
+            --dark-green: #00403d;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .admin-header {
+            background: var(--dark-green);
+            color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .admin-header .user-info {
+            text-align: right;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+            color: var(--dark-green);
+        }
+        
+        .stat-card p {
+            margin: 0;
+            color: #666;
+        }
+        
+        .admin-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-section h2 {
+            color: var(--dark-green);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .btn-admin {
+            background: var(--primary-color);
+            border: none;
+            color: #000;
+            font-weight: 500;
+        }
+        
+        .btn-admin:hover {
+            background: #e6ac00;
+        }
+        
+        .theme-table {
+            width: 100%;
+        }
+        
+        .theme-table th {
+            background: var(--dark-green);
+            color: white;
+            padding: 1rem;
+        }
+        
+        .theme-table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+        
+        .badge-published {
+            background: #28a745;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .badge-draft {
+            background: #6c757d;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .upload-form .form-control {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Header -->
+    <div class="admin-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1><i class="fas fa-shield-alt me-2"></i>Admin Dashboard</h1>
+                </div>
+                <div class="col-md-6">
+                    <div class="user-info">
+                        <div id="adminName">Loading...</div>
+                        <small id="adminEmail">Loading...</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Stats Row -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <h3 id="totalThemes">0</h3>
+                    <p>Total Themes</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <h3 id="totalUsers">0</h3>
+                    <p>Total Users</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <h3 id="totalOrders">0</h3>
+                    <p>Total Orders</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <h3 id="totalRevenue">$0</h3>
+                    <p>Total Revenue</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upload Theme Section -->
+        <div class="admin-section">
+            <h2><i class="fas fa-upload me-2"></i>Upload New Theme</h2>
+            <form id="uploadThemeForm" class="upload-form" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" id="themeTitle" placeholder="Theme Title" required>
+                        <input type="number" class="form-control" id="themePrice" placeholder="Price ($)" step="0.01" required>
+                        <input type="text" class="form-control" id="themeCategory" placeholder="Category (e.g., Business, eCommerce)" required>
+                        <input type="text" class="form-control" id="themeVersion" placeholder="Version (e.g., 1.0.0)" value="1.0.0">
+                    </div>
+                    <div class="col-md-6">
+                        <textarea class="form-control" id="themeDescription" placeholder="Theme Description" rows="4" required></textarea>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Theme ZIP File</label>
+                        <input type="file" class="form-control" id="themeFile" accept=".zip" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Preview Image</label>
+                        <input type="file" class="form-control" id="previewImage" accept="image/*" required>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-admin btn-lg">
+                        <i class="fas fa-upload me-2"></i>Upload Theme
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Manage Themes Section -->
+        <div class="admin-section">
+            <h2><i class="fas fa-th-list me-2"></i>Manage Themes</h2>
+            <div class="table-responsive">
+                <table class="theme-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Downloads</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="themesTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center">Loading themes...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="stat-card text-center">
+                    <i class="fas fa-home fa-2x mb-3" style="color: var(--primary-color);"></i>
+                    <h5>View Site</h5>
+                    <a href="index.html" class="btn btn-admin btn-sm">Go to Homepage</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card text-center">
+                    <i class="fas fa-shopping-cart fa-2x mb-3" style="color: var(--primary-color);"></i>
+                    <h5>View Orders</h5>
+                    <a href="#" class="btn btn-admin btn-sm" onclick="alert('Orders feature coming soon!')">View All Orders</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card text-center">
+                    <i class="fas fa-sign-out-alt fa-2x mb-3" style="color: var(--primary-color);"></i>
+                    <h5>Logout</h5>
+                    <button class="btn btn-admin btn-sm" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="assets/js/stateManager.js?v=1"></script>
+    <script src="assets/js/utils.js?v=2"></script>
+    <script src="assets/js/api.js?v=2"></script>
+    <script>
+        // Check if user is admin
+        async function checkAdminAccess() {
+            if (!api.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const user = api.getCurrentUser();
+            console.log('Current user:', user);
+            
+            if (!user || user.role !== 'admin') {
+                alert('Access denied. Admin only. Your role: ' + (user?.role || 'unknown'));
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Update user info
+            document.getElementById('adminName').textContent = user.name;
+            document.getElementById('adminEmail').textContent = user.email;
+            
+            // Load dashboard data
+            await loadDashboardData();
+        }
+        
+        // Load dashboard statistics
+        async function loadDashboardData() {
+            try {
+                // Load themes
+                const themesResponse = await api.getThemes({ limit: 1000 });
+                const themes = themesResponse.data.themes;
+                document.getElementById('totalThemes').textContent = themesResponse.data.total;
+                
+                // Populate themes table
+                populateThemesTable(themes);
+                
+                // Calculate total revenue
+                const totalRevenue = themes.reduce((sum, theme) => {
+                    return sum + (parseFloat(theme.price) * parseInt(theme.downloads || 0));
+                }, 0);
+                document.getElementById('totalRevenue').textContent = '$' + totalRevenue.toLocaleString();
+                
+                // These would need additional API endpoints in production
+                document.getElementById('totalUsers').textContent = '3';
+                document.getElementById('totalOrders').textContent = '0';
+                
+            } catch (error) {
+                console.error('Failed to load dashboard:', error);
+            }
+        }
+        
+        // Populate themes table
+        function populateThemesTable(themes) {
+            const tbody = document.getElementById('themesTableBody');
+            
+            if (themes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center">No themes found</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = themes.map(theme => `
+                <tr>
+                    <td><strong>${theme.title}</strong></td>
+                    <td>${theme.category}</td>
+                    <td>$${theme.price}</td>
+                    <td>${theme.downloads || 0}</td>
+                    <td>
+                        <span class="${theme.is_published ? 'badge-published' : 'badge-draft'}">
+                            ${theme.is_published ? 'Published' : 'Draft'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-danger" onclick="deleteTheme('${theme.id}', '${theme.title}')">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        // Upload theme
+        document.getElementById('uploadThemeForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('title', document.getElementById('themeTitle').value);
+            formData.append('price', document.getElementById('themePrice').value);
+            formData.append('category', document.getElementById('themeCategory').value);
+            formData.append('version', document.getElementById('themeVersion').value);
+            formData.append('description', document.getElementById('themeDescription').value);
+            formData.append('themeFile', document.getElementById('themeFile').files[0]);
+            formData.append('previewImage', document.getElementById('previewImage').files[0]);
+            formData.append('isPublished', 'true');
+            
+            try {
+                const response = await api.uploadTheme(formData);
+                
+                if (response.success) {
+                    alert('Theme uploaded successfully!');
+                    this.reset();
+                    await loadDashboardData();
+                } else {
+                    alert(response.error || 'Upload failed');
+                }
+            } catch (error) {
+                alert(error.message || 'Upload failed');
+            }
+        });
+        
+        // Delete theme
+        async function deleteTheme(themeId, themeTitle) {
+            if (!confirm(`Are you sure you want to delete "${themeTitle}"? This cannot be undone.`)) {
+                return;
+            }
+            
+            try {
+                console.log('Attempting to delete theme:', themeId);
+                const response = await api.deleteTheme(themeId);
+                console.log('Delete response:', response);
+                
+                if (response.success) {
+                    alert('Theme deleted successfully!');
+                    await loadDashboardData();
+                } else {
+                    alert(response.error || 'Delete failed');
+                }
+            } catch (error) {
+                console.error('Delete theme error:', error);
+                alert('Delete failed: ' + (error.message || 'Unknown error'));
+            }
+        }
+        
+        // Logout
+        function logout() {
+            api.logout();
+        }
+        
+        // Initialize
+        checkAdminAccess();
+    </script>
+</body>
+</html>

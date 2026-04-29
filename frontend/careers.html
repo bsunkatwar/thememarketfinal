@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Careers | TezTecch</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins', sans-serif;
+}
+
+body{
+background:#f4f9f8;
+color:#333;
+}
+
+/* COOKIE BAR */
+.cookie-bar{
+position:fixed;
+bottom:0;
+width:100%;
+background:#00403d;
+color:#fff;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:1000;
+}
+
+.cookie-bar button{
+background:#ffcc00;
+border:none;
+padding:8px 15px;
+cursor:pointer;
+font-weight:500;
+}
+
+/* HEADER */
+header{
+background:#00403d;
+padding:20px;
+box-shadow:0 2px 10px rgba(0,0,0,0.05);
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+header h2{
+color:#f2f7f6;
+}
+
+/* JOB SECTION */
+.container{
+padding:40px;
+max-width:1000px;
+margin:auto;
+}
+
+.category{
+margin-bottom:30px;
+}
+
+.category h3{
+color:#00403d;
+margin-bottom:15px;
+border-left:5px solid #ffcc00;
+padding-left:10px;
+}
+
+.job{
+background:#fff;
+padding:20px;
+margin-bottom:15px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.05);
+display:flex;
+justify-content:space-between;
+align-items:center;
+transition:0.3s;
+}
+
+.job:hover{
+transform:translateY(-3px);
+}
+
+.job-info{
+max-width:70%;
+}
+
+.job-title{
+font-weight:600;
+}
+
+.job-location{
+font-size:14px;
+color:#777;
+}
+
+.apply-btn{
+background:#00403d;
+color:#fff;
+border:none;
+padding:10px 20px;
+cursor:pointer;
+border-radius:5px;
+transition:0.3s;
+}
+
+.apply-btn:hover{
+background:#ffcc00;
+color:#000;
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#fff;
+padding:30px;
+border-radius:10px;
+width:90%;
+max-width:400px;
+}
+
+.modal-content input,
+.modal-content textarea{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+border:1px solid #ccc;
+}
+
+.close{
+float:right;
+cursor:pointer;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>TezTecch</h2>
+</header>
+
+<div class="container">
+
+<div class="category">
+<h3>Marketing</h3>
+
+<div class="job">
+<div class="job-info">
+<div class="job-title">Senior Brand and Social Marketing Manager</div>
+<div class="job-location">Remote — Part Time</div>
+</div>
+<button class="apply-btn" onclick="openForm('Marketing Manager')">Apply</button>
+</div>
+
+<div class="job">
+<div class="job-info">
+<div class="job-title">Senior CRM Manager</div>
+<div class="job-location">Remote — Full Time</div>
+</div>
+<button class="apply-btn" onclick="openForm('CRM Manager')">Apply</button>
+</div>
+
+</div>
+
+<div class="category">
+<h3>Technology</h3>
+
+<div class="job">
+<div class="job-info">
+<div class="job-title">Principal Engineer</div>
+<div class="job-location">Remote — Full Time</div>
+</div>
+<button class="apply-btn" onclick="openForm('Engineer')">Apply</button>
+</div>
+
+<div class="job">
+<div class="job-info">
+<div class="job-title">Senior AI Engineer</div>
+<div class="job-location">Remote — Full Time</div>
+</div>
+<button class="apply-btn" onclick="openForm('AI Engineer')">Apply</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- MODAL FORM -->
+<div class="modal" id="applyModal">
+<div class="modal-content">
+<span class="close" onclick="closeForm()">X</span>
+
+<h3>Apply for Job</h3>
+
+<form onsubmit="submitForm(event)">
+<input type="text" placeholder="Your Name" required>
+<input type="email" placeholder="Email" required>
+<textarea placeholder="Why should we hire you?" required></textarea>
+<button type="submit" class="apply-btn">Submit</button>
+</form>
+
+</div>
+</div>
+
+<!-- COOKIE BAR -->
+<div class="cookie-bar" id="cookieBar">
+<span>🍪 This website uses cookies to improve your experience.</span>
+<button onclick="acceptCookies()">Accept</button>
+</div>
+
+<script>
+
+function openForm(job){
+document.getElementById("applyModal").style.display="flex";
+}
+
+function closeForm(){
+document.getElementById("applyModal").style.display="none";
+}
+
+function submitForm(e){
+e.preventDefault();
+alert("Application submitted successfully!");
+closeForm();
+}
+
+function acceptCookies(){
+document.getElementById("cookieBar").style.display="none";
+}
+
+</script>
+
+</body>
+</html>

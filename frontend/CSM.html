@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CMS Templates Marketplace | TezTecch</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --primary:#00403d;
+  --accent:#ffffff;
+  --dark:#0b2c2a;
+  --light:#f4f7f6;
+  --white:#ffffff;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins, Arial, sans-serif;
+}
+
+body{
+  background:var(--light);
+  color:#222;
+}
+
+/* ================= NAVBAR ================= */
+.navbar{
+  background:var(--dark);
+  padding:14px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:999;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.brand img{
+  height:38px;
+}
+
+.brand span{
+  font-size:20px;
+  font-weight:700;
+  color:var(--accent);
+}
+
+.navbar a{
+  color:#fff;
+  text-decoration:none;
+  margin-left:22px;
+  font-size:14px;
+}
+
+.navbar a:hover{
+  color:var(--accent);
+}
+
+/* ================= CATEGORY BAR ================= */
+.category-bar{
+  background:var(--primary);
+  padding:10px 30px;
+  overflow-x:auto;
+  white-space:nowrap;
+}
+
+.category-bar a{
+  color:#fff;
+  margin-right:20px;
+  text-decoration:none;
+  font-size:14px;
+}
+
+.category-bar a:hover{
+  color:var(--accent);
+}
+
+/* ================= LAYOUT ================= */
+.container{
+  display:grid;
+  grid-template-columns:260px 1fr;
+  gap:30px;
+  padding:30px;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar{
+  background:var(--white);
+  padding:20px;
+  border-radius:10px;
+}
+
+.sidebar h3{
+  color:var(--primary);
+  margin-bottom:15px;
+}
+
+.sidebar ul{
+  list-style:none;
+}
+
+.sidebar li{
+  padding:8px 0;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.sidebar li:hover{
+  color:var(--accent);
+}
+
+/* ================= CONTENT ================= */
+.section h2{
+  color:var(--primary);
+  margin-bottom:20px;
+}
+
+/* ================= GRID ================= */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:22px;
+}
+
+/* ================= CARD ================= */
+.card{
+  background:var(--white);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+}
+
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+.card-body{
+  padding:15px;
+}
+
+.card-body h4{
+  font-size:15px;
+  margin-bottom:6px;
+}
+
+.card-body p{
+  font-size:12px;
+  color:#777;
+}
+
+.price{
+  margin-top:6px;
+  font-weight:600;
+  color:var(--primary);
+}
+
+.old{
+  text-decoration:line-through;
+  color:#aaa;
+  margin-right:6px;
+  font-size:13px;
+}
+
+.meta{
+  font-size:12px;
+  color:#666;
+  margin-top:6px;
+}
+
+.btn{
+  display:inline-block;
+  margin-top:10px;
+  padding:6px 12px;
+  background:var(--primary);
+  color:#fff;
+  font-size:12px;
+  border-radius:6px;
+  text-decoration:none;
+}
+
+.btn:hover{
+  background:var(--accent);
+  color:#000;
+}
+
+/* ================= FOOTER ================= */
+.footer{
+  background:var(--dark);
+  
+  color:#aaa;
+  padding:40px 30px;
+  margin-top:50px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:30px;
+}
+
+.footer h4{
+  color:#fff;
+  margin-bottom:10px;
+}
+
+.footer a{
+  display:block;
+  color:#aaa;
+  font-size:13px;
+  margin-bottom:6px;
+  text-decoration:none;
+}
+
+.footer a:hover{
+  color:var(--accent);
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:900px){
+  .container{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<div class="navbar">
+  <div class="brand">
+    <!-- apna logo yahan lagao -->
+    <img src="assets/image/tez-logo.png" alt="TezTecch Logo">
+    <span>ThemeMarket</span>
+  </div>
+  <div>
+    <a href="#">Start Selling</a>
+    <a href="#">Templates</a>
+    <a href="#">Sign In</a>
+  </div>
+</div>
+
+
+<!-- ============ PAGE ============ -->
+<div class="container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h3>CMS Categories</h3>
+  <ul>
+    <li>Joomla</li>
+    <li>Drupal</li>
+    <li>Moodle</li>
+    <li>Laravel CMS</li>
+    <li>Webflow</li>
+    <li>Miscellaneous</li>
+  </ul>
+</div>
+
+<!-- CONTENT -->
+<div>
+<div class="section">
+<h2>CMS Website Templates</h2>
+
+<div class="grid">
+
+<!-- TEMPLATE 1 -->
+<div class="card">
+<img src="assets/image/CMS1.jpeg">
+<div class="card-body">
+<h4>Arlo – Portfolio Joomla Template</h4>
+<p>by TezTecch</p>
+<div class="price"><span class="old">$48</span>$33</div>
+<div class="meta">⭐ 4.8 • 188 Sales</div>
+<a class="btn" href="#">Live Preview</a>
+</div>
+</div>
+
+<!-- TEMPLATE 2 -->
+<div class="card">
+<img src="assets/image/CMS2.jpeg">
+<div class="card-body">
+<h4>Nika – AI Software CMS</h4>
+<p>by TezTecch</p>
+<div class="price"><span class="old">$48</span>$33</div>
+<div class="meta">⭐ 5.0 • 72 Sales</div>
+<a class="btn" href="#">Live Preview</a>
+</div>
+</div>
+
+<!-- TEMPLATE 3 -->
+<div class="card">
+<img src="assets/image/CMS3.jpeg">
+<div class="card-body">
+<h4>BAZ – Premium Moodle Theme</h4>
+<p>by TezTecch</p>
+<div class="price">$119</div>
+<div class="meta">⭐ 4.9 • 251 Sales</div>
+<a class="btn" href="#">Live Preview</a>
+
+</div>
+</div>
+
+<!-- TEMPLATE 4 -->
+<div class="card">
+<img src="assets/image/CMS4.jpeg">
+<div class="card-body">
+<h4>Techguru – Laravel CMS</h4>
+<p>by TezTecch</p>
+<div class="price">$29</div>
+<div class="meta">⭐ 4.7 • 97 Sales</div>
+<a class="btn" href="#">Live Preview</a>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="footer">
+<div class="footer-grid">
+<div>
+<h4>ThemeMarket</h4>
+<a href="terms.html">Terms</a>
+<a href="license.html">Licenses</a>
+<a href="help.html">Help Center</a>
+</div>
+<div>
+<h4>Community</h4>
+<a href="blog.html">Blog</a>
+<a href="#">Authors</a>
+<a href="#">Become Seller</a>
+</div>
+<div>
+<h4>Company</h4>
+<a href="about.html">About Us</a>
+<a href="careers.html">Careers</a>
+<a href="policy.html">Privacy Policy</a>
+</div>
+</div>
+</div>
+
+</body>
+</html>

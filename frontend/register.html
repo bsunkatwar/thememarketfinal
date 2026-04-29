@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - TezTecch</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+    --primary-color: #ffcc00;
+    --secondary-color: #ffcc00;
+    --dark: #1f2933;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #00403d 0%, #00403d 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 480px;
+    background: rgba(255,255,255,0.95);
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.auth-logo i {
+    font-size: 42px;
+    color: var(--primary-color);
+}
+
+.auth-title {
+    text-align: center;
+    font-weight: 700;
+}
+
+.auth-subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: gray;
+    margin-bottom: 30px;
+}
+
+.form-control {
+    height: 48px;
+    border-radius: 10px;
+    border: 2px solid #eee;
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: none;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: gray;
+}
+
+.btn-custom {
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.social-login {
+    margin-top: 30px;
+}
+
+.social-btn {
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    border: 2px solid #eee;
+    background: white;
+    margin-bottom: 15px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.social-btn:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.auth-links a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+.auth-logo-img{
+    max-width: 140px;
+    height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="auth-box">
+
+    <div class="auth-logo">
+        <img src="assets/image/tez-logo.png" alt="TezTecch Logo" class="auth-logo-img">
+    </div>
+
+    <h2 class="auth-title"> Create Account </h2>
+    <p class="auth-subtitle">Join TezTecch Marketplace Today</p>
+
+    <form id="registerForm">
+
+        <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Full Name" required>
+        </div>
+
+        <div class="mb-3">
+            <input type="email" class="form-control" placeholder="Email Address" required>
+        </div>
+
+        <div class="mb-3 password-wrapper">
+            <input type="password" id="password" class="form-control" placeholder="Create Password" required>
+            <i class="fas fa-eye password-toggle" onclick="togglePassword()"></i>
+        </div>
+
+        <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Confirm Password" required>
+        </div>
+
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" required>
+            <label class="form-check-label">
+                I agree to the 
+                <a href="terms.html" style="color: var(--primary-color);">Terms & Conditions</a>
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-custom w-100 text-white">
+            Create Account
+        </button>
+
+    </form>
+
+    <div class="social-login text-center">
+        <p class="text-muted mb-3">Or sign up with</p>
+
+        <button class="social-btn">
+            <i class="fab fa-google text-danger me-2"></i> Sign up with Google
+        </button>
+
+        <button class="social-btn">
+            <i class="fab fa-facebook text-primary me-2"></i> Sign up with Facebook
+        </button>
+    </div>
+
+    <div class="auth-links">
+        Already have an account?
+        <a href="login.html">Login</a>
+        <br><br>
+        <a href="index.html">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+    </div>
+
+</div>
+
+<script src="assets/js/stateManager.js?v=1"></script>
+<script src="assets/js/utils.js?v=2"></script>
+<script src="assets/js/api.js?v=2"></script>
+<script>
+function togglePassword() {
+    const password = document.getElementById("password");
+    const icon = document.querySelector(".password-toggle");
+
+    if (password.type === "password") {
+        password.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
+    } else {
+        password.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
+    }
+}
+
+document.getElementById('registerForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const inputs = this.querySelectorAll('input');
+    const name = inputs[0].value;
+    const email = inputs[1].value;
+    const password = inputs[2].value;
+    const confirmPassword = inputs[3].value;
+    const submitBtn = this.querySelector('button[type="submit"]');
+    
+    // Validation
+    if (password !== confirmPassword) {
+        Toast.error('Passwords do not match!');
+        return;
+    }
+    
+    if (password.length < 6) {
+        Toast.error('Password must be at least 6 characters long!');
+        return;
+    }
+    
+    try {
+        LoadingState.set(submitBtn, true, '<i class="fas fa-spinner fa-spin"></i> Creating account...');
+        const response = await api.register({ name, email, password });
+        
+        Toast.success('Registration successful! Redirecting to dashboard...');
+        setTimeout(() => {
+            window.location.href = 'dashboard.html';
+        }, 1000);
+    } catch (error) {
+        handleApiError(error, 'register');
+    } finally {
+        LoadingState.set(submitBtn, false);
+    }
+});
+</script>
+
+</body>
+</html>

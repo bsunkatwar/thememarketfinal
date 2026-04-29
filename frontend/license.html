@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Teztecch Licenses</title>
+
+<style>
+
+/* BODY */
+
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f4f6f8;
+}
+
+/* NAVBAR */
+
+.navbar{
+background:#00403d;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+}
+
+.logo{
+display:flex;
+align-items:center;
+font-size:20px;
+font-weight:bold;
+}
+
+.logo img{
+width:35px;
+margin-right:10px;
+}
+
+.nav-links a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+font-size:14px;
+}
+
+/* CATEGORY BAR */
+
+.categories{
+background:#fff;
+padding:12px 40px;
+border-bottom:1px solid #ddd;
+}
+
+.categories a{
+margin-right:18px;
+text-decoration:none;
+color:#333;
+font-size:14px;
+}
+
+/* SEARCH */
+
+.search-bar{
+padding:20px 40px;
+background:#ffcc00;
+}
+
+.search-bar input{
+width:300px;
+padding:10px;
+border:1px solid #ccc;
+border-radius:4px;
+}
+
+/* CONTENT */
+
+.container{
+padding:40px;
+max-width:1000px;
+margin:auto;
+}
+
+.container h1{
+margin-bottom:10px;
+}
+
+.license-tabs{
+margin-top:20px;
+border-bottom:1px solid #ddd;
+}
+
+.license-tabs button{
+background:none;
+border:none;
+margin-right:20px;
+padding-bottom:10px;
+cursor:pointer;
+font-size:15px;
+}
+
+.license-tabs button.active{
+border-bottom:3px solid #00403d;
+font-weight:bold;
+}
+
+/* LICENSE CONTENT */
+
+.license-content{
+    margin-top:30px;
+    background:#00403d;
+    padding:25px;
+    border-radius:8px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    color:#ffffff;
+    line-height:1.7;
+}
+
+/* FAQ */
+
+.faq{
+margin-top:40px;
+}
+
+.faq-item{
+background:white;
+padding:20px;
+margin-bottom:10px;
+border-radius:6px;
+}
+
+/* SUPPORT */
+
+.support{
+background:#00403d;
+color:white;
+padding:40px;
+margin-top:40px;
+border-radius:6px;
+}
+
+/* PROMO */
+
+.promo{
+margin-top:40px;
+background:white;
+padding:30px;
+border-radius:6px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+/* FOOTER */
+
+.footer{
+background:#003230;
+color:#ccc;
+padding:40px;
+margin-top:40px;
+}
+
+.footer-links{
+display:flex;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.footer-links div{
+width:200px;
+}
+
+.footer-links a{
+display:block;
+color:#ccc;
+text-decoration:none;
+margin-bottom:8px;
+font-size:14px;
+}
+
+.footer-bottom{
+margin-top:20px;
+border-top:1px solid #333;
+padding-top:15px;
+font-size:13px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="logo">
+<img src="assets/image/tez-logo.png">
+ThemeMarket
+</div>
+
+<div class="nav-links">
+<a href="#">Start Selling</a>
+<a href="#">Products</a>
+<a href="#">Community</a>
+<a href="#">Blog</a>
+
+</div>
+
+</div>
+
+
+
+<!-- SEARCH -->
+
+<div class="search-bar">
+
+<input type="text" placeholder="Search items...">
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="container">
+
+<h1>Licenses Overview</h1>
+
+<p>
+Did you know that when you purchase an item from Teztecch Market,
+you are purchasing a license to use that item?
+Understanding licenses helps you use digital assets correctly.
+</p>
+
+<div class="license-tabs">
+
+<button class="tab active" onclick="openLicense(event,'standard')">Standard</button>
+<button class="tab" onclick="openLicense(event,'music')">Music</button>
+<button class="tab" onclick="openLicense(event,'sfx')">Sound Effects</button>
+<button class="tab" onclick="openLicense(event,'video')">Video</button>
+<button class="tab" onclick="openLicense(event,'photo')">Photo</button>
+<button class="tab" onclick="openLicense(event,'special')">Specialty</button>
+
+</div>
+
+<div id="standard" class="license-content">
+<h3>Standard License</h3>
+<p>
+The standard license allows you to use the item in one end product
+for yourself or one client.
+</p>
+</div>
+
+<div id="music" class="license-content" style="display:none">
+<h3>Music License</h3>
+<p>
+Music items can be used in videos, advertisements, games,
+and creative productions depending on the license.
+</p>
+</div>
+
+<div id="sfx" class="license-content" style="display:none">
+<h3>Sound Effects License</h3>
+<p>
+Sound effects can be used in games, films, and media productions.
+</p>
+</div>
+
+<div id="video" class="license-content" style="display:none">
+<h3>Video License</h3>
+<p>
+Video templates and footage can be used in creative projects
+like marketing videos and films.
+</p>
+</div>
+
+<div id="photo" class="license-content" style="display:none">
+<h3>Photo License</h3>
+<p>
+Photos may be used for websites, advertisements, and marketing materials.
+</p>
+</div>
+
+<div id="special" class="license-content" style="display:none">
+<h3>Specialty License</h3>
+<p>
+Specialty licenses apply to specific creative assets with
+custom usage rights.
+</p>
+</div>
+
+<!-- FAQ -->
+
+<div class="faq">
+
+<h2>FAQ</h2>
+
+<div class="faq-item">
+<strong>What does a license mean?</strong>
+<p>A license allows you to use a digital item legally.</p>
+</div>
+
+<div class="faq-item">
+<strong>Can I use items for commercial projects?</strong>
+<p>Yes, depending on the license type you choose.</p>
+</div>
+
+</div>
+
+<!-- SUPPORT -->
+
+<div class="support">
+
+<h2>Support</h2>
+
+<p>
+Still have a question? Contact the Teztecch Help Team
+for assistance with licenses and purchases.
+</p>
+
+</div>
+
+<!-- PROMO -->
+
+<div class="promo">
+
+<div>
+<h3>Your all-in-one creative subscription</h3>
+<p>Unlimited downloads of stock assets with Teztecch Elements.</p>
+</div>
+
+<button style="padding:12px 20px;background:#ffcc00;color:white;border:none;border-radius:4px;cursor:pointer;">
+Start Now
+</button>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+<div class="footer-links">
+
+<div>
+<h3>ThemeMarket</h3>
+<a href="terms.html">Terms</a>
+<a href="license.html">Licenses</a>
+<a href="#">API</a>
+</div>
+
+<div>
+<h3>Community</h3>
+<a href="blog.html">Blog</a>
+<a href="about.html">About</a>
+
+</div>
+
+<div>
+<h3>Help</h3>
+<a href="help.html">Help Center</a>
+<a href="contact.html">Contact</a>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+© 2026 Teztecch. All Rights Reserved.
+
+</div>
+
+</div>
+
+<script>
+
+function openLicense(event,tabId){
+
+let contents=document.querySelectorAll(".license-content");
+let tabs=document.querySelectorAll(".tab");
+
+contents.forEach(c=>c.style.display="none");
+tabs.forEach(t=>t.classList.remove("active"));
+
+document.getElementById(tabId).style.display="block";
+
+event.target.classList.add("active");
+
+}
+
+</script>
+
+</body>
+</html>

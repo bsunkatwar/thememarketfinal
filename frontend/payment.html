@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - ThemeMarket</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <style>
+        .payment-page {
+            padding: 4rem 0;
+            min-height: 80vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .payment-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .payment-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .payment-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .payment-header h1 {
+            color: #00403d;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .order-summary {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        
+        .payment-methods {
+            display: grid;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .payment-method {
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .payment-method:hover {
+            border-color: #ffcc00;
+            background: #fffef5;
+        }
+        
+        .payment-method.selected {
+            border-color: #00403d;
+            background: #f0fff4;
+        }
+        
+        .payment-method i {
+            font-size: 2rem;
+            color: #00403d;
+        }
+        
+        .payment-method-info h4 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .payment-method-info p {
+            margin: 5px 0 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .card-form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .card-form.show {
+            display: block;
+        }
+        
+        .form-control {
+            height: 50px;
+            border-radius: 10px;
+            border: 2px solid #dee2e6;
+        }
+        
+        .form-control:focus {
+            border-color: #00403d;
+            box-shadow: none;
+        }
+        
+        .btn-pay {
+            height: 55px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #00403d, #006660);
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn-pay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,64,61,0.3);
+        }
+        
+        .btn-pay:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .secure-badge {
+            text-align: center;
+            margin-top: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .secure-badge i {
+            color: #ffc107;
+            margin-right: 5px;
+        }
+        
+        .demo-notice {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #856404;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">
+            <strong style="color: var(--secondary-color);">ThemeMarket</strong>
+        </a>
+        <a href="cart.html" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> Back to Cart
+        </a>
+    </div>
+</nav>
+
+<section class="payment-page">
+    <div class="payment-container">
+        
+        <div class="payment-box">
+            <div class="payment-header">
+                <h1><i class="fas fa-lock"></i> Secure Payment</h1>
+                <p class="text-muted">Complete your purchase</p>
+                <div class="alert alert-warning mt-3 mb-0" style="border-radius: 10px;">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    <strong>DEMO MODE:</strong> All payment methods are fake/simulated. No real payments will be processed.
+                </div>
+            </div>
+            
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h4 class="mb-3">Order Summary</h4>
+                <div id="orderItems"></div>
+                <hr>
+                <div class="d-flex justify-content-between" style="font-size: 1.3rem; font-weight: 700; color: #00403d;">
+                    <span>Total</span>
+                    <span id="orderTotal">$0</span>
+                </div>
+            </div>
+            
+            <!-- Payment Methods -->
+            <h4 class="mb-3">Select Payment Method <span class="badge bg-warning text-dark">Demo Mode</span></h4>
+            <div class="payment-methods">
+                <div class="payment-method" onclick="selectPayment('card')">
+                    <i class="fas fa-credit-card"></i>
+                    <div class="payment-method-info">
+                        <h4>Credit/Debit Card (Fake)</h4>
+                        <p>Use any dummy card details</p>
+                    </div>
+                </div>
+                
+                <div class="payment-method" onclick="selectPayment('paypal')">
+                    <i class="fab fa-paypal"></i>
+                    <div class="payment-method-info">
+                        <h4>PayPal (Fake)</h4>
+                        <p>No real payment required</p>
+                    </div>
+                </div>
+                
+                <div class="payment-method" onclick="selectPayment('upi')">
+                    <i class="fas fa-mobile-alt"></i>
+                    <div class="payment-method-info">
+                        <h4>UPI Payment (Fake)</h4>
+                        <p>Simulated payment only</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card Form -->
+            <div id="cardForm" class="card-form">
+                <h5 class="mb-3">Card Details</h5>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Card Number" maxlength="16" id="cardNumber">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <input type="text" class="form-control" placeholder="MM/YY" maxlength="5" id="cardExpiry">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <input type="text" class="form-control" placeholder="CVV" maxlength="3" id="cardCVV">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Cardholder Name" id="cardName">
+                </div>
+            </div>
+            
+            <!-- Pay Button -->
+            <button class="btn-pay" id="payBtn" onclick="processPayment()" disabled>
+                <i class="fas fa-check-circle"></i> Complete Purchase (Demo)
+            </button>
+            
+            <p class="text-center text-muted mt-2" style="font-size: 0.85rem;">
+                <i class="fas fa-info-circle"></i> No payment details required - Just click to complete demo purchase
+            </p>
+            
+            <div class="secure-badge">
+                <i class="fas fa-info-circle"></i>
+                <span>Demo Mode - All payments are fake/simulated for testing</span>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<script src="assets/js/stateManager.js?v=1"></script>
+<script src="assets/js/utils.js?v=2"></script>
+<script src="assets/js/api.js?v=2"></script>
+<script>
+    let selectedPaymentMethod = null;
+    let cartItems = [];
+    let totalAmount = 0;
+    
+    // Load cart items on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        if (cartItems.length === 0) {
+            alert('Your cart is empty!');
+            window.location.href = 'cart.html';
+            return;
+        }
+        
+        if (!api.isLoggedIn()) {
+            alert('Please login to complete your purchase');
+            window.location.href = 'login.html';
+            return;
+        }
+        
+        renderOrderSummary();
+    });
+    
+    function renderOrderSummary() {
+        const orderItemsDiv = document.getElementById('orderItems');
+        let subtotal = 0;
+        
+        orderItemsDiv.innerHTML = cartItems.map(item => {
+            subtotal += item.price || 0;
+            return `
+                <div class="order-item">
+                    <div>
+                        <strong>${item.title}</strong>
+                        <div class="text-muted" style="font-size: 0.9rem;">${item.category || 'Theme'}</div>
+                    </div>
+                    <div style="font-weight: 600; color: #00403d;">
+                        $${item.price || 0}
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        const tax = subtotal * 0.1;
+        totalAmount = subtotal + tax;
+        
+        document.getElementById('orderTotal').textContent = `$${totalAmount.toFixed(2)}`;
+    }
+    
+    function selectPayment(method) {
+        selectedPaymentMethod = method;
+        
+        // Update UI
+        document.querySelectorAll('.payment-method').forEach(el => {
+            el.classList.remove('selected');
+        });
+        event.currentTarget.classList.add('selected');
+        
+        // Show/hide card form
+        const cardForm = document.getElementById('cardForm');
+        if (method === 'card') {
+            cardForm.classList.add('show');
+        } else {
+            cardForm.classList.remove('show');
+        }
+        
+        // Enable pay button immediately - NO VALIDATION NEEDED
+        document.getElementById('payBtn').disabled = false;
+    }
+    
+    async function processPayment() {
+        const payBtn = document.getElementById('payBtn');
+        
+        // Show processing
+        payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Payment...';
+        payBtn.disabled = true;
+        
+        try {
+            // Simulate payment processing (1.5 seconds)
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Process each item in cart
+            let successCount = 0;
+            let failedItems = [];
+            
+            for (const item of cartItems) {
+                try {
+                    await api.createOrder(item.id, totalAmount);
+                    successCount++;
+                } catch (error) {
+                    console.error(`Purchase failed for "${item.title}":`, error);
+                    failedItems.push(item.title);
+                }
+            }
+            
+            if (successCount === cartItems.length) {
+                // All succeeded
+                localStorage.setItem('cart', JSON.stringify([]));
+                
+                payBtn.innerHTML = '<i class="fas fa-check-circle"></i> Payment Successful!';
+                payBtn.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    Toast.success(`${successCount} theme(s) purchased successfully! Redirecting to dashboard...`);
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                }, 300);
+                
+            } else if (successCount > 0) {
+                // Partial success - DON'T clear cart, keep failed items
+                const failedCartItems = cartItems.filter(item => failedItems.includes(item.title));
+                localStorage.setItem('cart', JSON.stringify(failedCartItems));
+                
+                payBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Partial Success';
+                payBtn.style.background = '#ffc107';
+                
+                setTimeout(() => {
+                    Toast.warning(`${successCount} purchased, ${failedItems.length} failed. Failed items kept in cart.`);
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 2000);
+                }, 300);
+                
+            } else {
+                // All failed - DON'T clear cart
+                throw new Error('Payment processing failed. No items were purchased.');
+            }
+            
+        } catch (error) {
+            console.error('Payment error:', error);
+            
+            // DON'T clear cart on failure
+            payBtn.innerHTML = '<i class="fas fa-times-circle"></i> Payment Failed';
+            payBtn.style.background = '#dc3545';
+            
+            setTimeout(() => {
+                Toast.error(error.message || 'Payment failed. Your cart has been preserved. Please try again.');
+                payBtn.disabled = false;
+                payBtn.innerHTML = '<i class="fas fa-lock"></i> Pay Securely';
+                payBtn.style.background = '#00403d';
+            }, 300);
+        }
+    }
+</script>
+
+</body>
+</html>

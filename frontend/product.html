@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details — ThemeMarket</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Fraunces:ital,wght@0,300;0,600;0,700;1,300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ────────────────────────────────────── */
+    :root {
+      --ink:        #141414;
+      --paper:      #f9f9f9;
+      --surface:    #ffffff;
+      --muted:      #6b6b6b;
+      --border:     #e2e0db;
+      --accent:     #00403d;
+      --accent-lt:  #e8f1ed;
+      --accent-mid: #00403d;
+      --price:      #1a3d2e;
+      --radius:     12px;
+      --shadow-sm:  0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+      --shadow-md:  0 4px 8px rgba(0,0,0,.06), 0 12px 32px rgba(0,0,0,.10);
+      --transition: 220ms ease;
+    }
+
+    /* ─── BASE ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ─── NAV ───────────────────────────────────────── */
+    .tm-nav {
+      background: #00403d;
+      border-bottom: 1px solid var(--border);
+      padding: 0 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .tm-nav .inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tm-logo {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: #ffffff;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .tm-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cart {
+      background: #ffcc00;
+      color: #141414!important;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 13px !important;
+    }
+    .nav-cart:hover { background: var(--accent) !important; color: #ffcc00 !important; }
+
+    /* ─── BREADCRUMB ────────────────────────────────── */
+    .breadcrumb-bar {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 16px 24px 0;
+    }
+    .breadcrumb { font-size: 13px; color: var(--muted); margin: 0; }
+    .breadcrumb-item a { color: var(--muted); text-decoration: none; }
+    .breadcrumb-item a:hover { color: var(--accent); }
+    .breadcrumb-item.active { color: var(--ink); font-weight: 500; }
+    .breadcrumb-item + .breadcrumb-item::before { color: var(--border); }
+
+    /* ─── MAIN GRID ─────────────────────────────────── */
+    .product-grid {
+      max-width: 1180px;
+      margin: 28px auto 0;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 480px;
+      gap: 48px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .product-grid { grid-template-columns: 1fr; gap: 32px; }
+    }
+
+    /* ─── GALLERY ───────────────────────────────────── */
+    .gallery-wrap { position: sticky; top: 80px; }
+    .main-img-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--border);
+      aspect-ratio: 4/3;
+      box-shadow: var(--shadow-md);
+    }
+    .main-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 400ms ease;
+    }
+    .main-img-wrap:hover img { transform: scale(1.02); }
+
+    /* ─── DETAILS PANEL ─────────────────────────────── */
+    .details-panel { padding-top: 4px; }
+
+    .product-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-lt);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .product-badge i { font-size: 11px; }
+
+    .product-title {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin: 0 0 6px;
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .stars { color: #ffcc00; font-size: 14px; letter-spacing: 1px; }
+    .rating-text { font-size: 13px; color: var(--muted); }
+
+    .product-price {
+      font-family: 'Fraunces', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--price);
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .price-note { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+
+    .product-description {
+      color: #444;
+      font-size: 14.5px;
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+      margin-bottom: 20px;
+    }
+
+    /* ─── FEATURES ──────────────────────────────────── */
+    .features-heading {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .product-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    @media (max-width: 560px) { .product-features { grid-template-columns: 1fr; } }
+    .product-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13.5px;
+      color: #333;
+    }
+    .product-features li i {
+      color: var(--accent);
+      font-size: 14px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ─── CTA BUTTONS ───────────────────────────────── */
+    .cta-group { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-buy {
+      flex: 1;
+      min-width: 140px;
+      background:#ffcc00;
+      color: #0a0a0a;
+      border: none;
+      padding: 14px 24px;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition) transform 120ms ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-buy:hover { background: var(--accent); transform: translateY(-1px); }
+    .btn-buy:active { transform: translateY(0); }
+    .btn-wishlist {
+      background: var(--surface);
+      color: var(--ink);
+      border: 1.5px solid var(--border);
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color var(--transition), color var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .btn-wishlist:hover { border-color: var(--accent); color: var(--accent); }
+    
+        .preview-links {
+          display: flex;
+          gap: 12px;
+          margin-top: 16px;
+          flex-wrap: wrap;
+        }
+    
+        .preview-link-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 20px;
+          background: linear-gradient(135deg, #00403d 0%, #006b67 100%);
+          color: #ffffff;
+          border-radius: var(--radius);
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 12px rgba(0, 64, 61, 0.2);
+        }
+    
+        .preview-link-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 16px rgba(0, 64, 61, 0.3);
+          color: #ffffff;
+        }
+    
+        .preview-link-btn.demo-btn {
+          background: linear-gradient(135deg, #ffcc00 0%, #ffb800 100%);
+          color: #00403d;
+          box-shadow: 0 4px 12px rgba(255, 204, 0, 0.3);
+        }
+    
+        .preview-link-btn.demo-btn:hover {
+          box-shadow: 0 6px 16px rgba(255, 204, 0, 0.4);
+          color: #00403d;
+        }
+    
+        .preview-link-btn i {
+          font-size: 1.1rem;
+        }
+
+    .trust-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .trust-item i { color: var(--accent); font-size: 13px; }
+
+    /* ─── TABS ──────────────────────────────────────── */
+    .tabs-section {
+      max-width: 1180px;
+      margin: 52px auto 0;
+      padding: 0 24px;
+    }
+    .tab-nav {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      gap: 0;
+      margin-bottom: 32px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 12px 22px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .tab-btn:hover { color: var(--ink); }
+    .tab-btn.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* About tab */
+    #aboutContent {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #333;
+      max-width: 740px;
+      white-space: pre-line;
+    }
+
+    /* Reviews tab */
+    .review-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .reviewer-name { font-weight: 600; font-size: 14px; }
+    .review-date { font-size: 12px; color: var(--muted); }
+    .review-text { font-size: 14px; color: #444; margin-top: 8px; line-height: 1.65; }
+
+    /* ─── RELATED ───────────────────────────────────── */
+    .related-section {
+      max-width: 1180px;
+      margin: 56px auto 80px;
+      padding: 0 24px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      margin-bottom: 28px;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 900px) { .related-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .related-grid { grid-template-columns: 1fr; } }
+
+    .related-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .related-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .related-card img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      transition: transform 400ms ease;
+    }
+    .related-card:hover img { transform: scale(1.04); }
+    .related-card .rc-img-wrap { overflow: hidden; }
+    .related-card .rc-body { padding: 14px 16px 16px; }
+    .related-card .rc-title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+    .related-card .rc-price {
+      font-family: 'Fraunces', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--price);
+    }
+    .related-card .rc-view {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .related-card .rc-view i { font-size: 11px; }
+
+    /* ─── LOADING / NOT FOUND ───────────────────────── */
+    .not-found {
+      text-align: center;
+      padding: 100px 24px;
+    }
+    .not-found h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .not-found p { color: var(--muted); }
+    .not-found a {
+      display: inline-block;
+      margin-top: 20px;
+      background: var(--ink);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    /* LOGO FIX */
+.logo-box {
+  background: #ffffff;          /* white background */
+  padding: 6px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-box img {
+  height: 28px;              
+  width: auto;
+  display: block;
+}
+
+/* optional: brand text styling */
+.brand-text {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;             
+}
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ─────────────────────────────────────────── -->
+  <nav class="tm-nav">
+    <div class="inner">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+    <div class="logo-box">
+        <img src="assets/image/tez-logo.png" alt="ThemeMarket Logo">
+    </div>
+    <span class="brand-text">ThemeMarket</span>
+</a>
+      <div class="nav-links">
+        <a href="category.html">Themes</a>
+        <a href="wordpress.html">Wordpress themes</a>
+        <a href="ecommerce.html">eCommerce</a>
+        <a href="cart.html" class="nav-cart"><i class="bi bi-bag"></i> Cart</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── BREADCRUMB ────────────────────────────────────── -->
+  <div class="breadcrumb-bar">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item"><a href="category.html">Themes</a></li>
+      <li class="breadcrumb-item active" id="breadcrumbTitle">Product</li>
+    </ol>
+  </div>
+
+  <!-- ── PRODUCT GRID ──────────────────────────────────── -->
+  <div class="product-grid" id="productGrid">
+
+    <!-- GALLERY -->
+    <div class="gallery-wrap">
+      <div class="main-img-wrap">
+        <img id="mainImage" src="" alt="" />
+      </div>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="details-panel">
+      <div class="product-badge"><i class="bi bi-stars"></i> Premium Theme</div>
+
+      <h1 class="product-title"></h1>
+
+      <div class="rating-row">
+        <span class="stars">★★★★★</span>
+        <span class="rating-text">4.9 · 128 reviews</span>
+      </div>
+
+      <div class="product-price"></div>
+      <p class="price-note">One-time purchase · Lifetime access</p>
+
+      <p class="product-description"></p>
+
+      <p class="features-heading">What's included</p>
+      <ul class="product-features"></ul>
+
+      <div class="cta-group">
+        <button class="btn-buy"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+        <button class="btn-wishlist"><i class="bi bi-heart"></i> Save</button>
+      </div>
+
+      <div class="preview-links" id="previewLinks">
+        <a href="#" class="preview-link-btn" id="previewUrlBtn" target="_blank">
+          <i class="bi bi-eye"></i> Live Preview
+        </a>
+        <a href="#" class="preview-link-btn demo-btn" id="demoUrlBtn" target="_blank">
+          <i class="bi bi-display"></i> View Demo
+        </a>
+      </div>
+
+      <div class="trust-row">
+        <div class="trust-item"><i class="bi bi-shield-check"></i> Secure checkout</div>
+        <div class="trust-item"><i class="bi bi-arrow-counterclockwise"></i> 30-day refund</div>
+        <div class="trust-item"><i class="bi bi-download"></i> Instant download</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TABS ──────────────────────────────────────────── -->
+  <div class="tabs-section" id="tabsSection">
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="description">About This Theme</button>
+      <button class="tab-btn" data-tab="reviews">Reviews</button>
+      <button class="tab-btn" data-tab="support">Support</button>
+    </div>
+
+    <!-- ABOUT TAB -->
+    <div class="tab-panel active" id="tab-description">
+      <div id="aboutContent"></div>
+    </div>
+
+    <!-- REVIEWS TAB -->
+    <div class="tab-panel" id="tab-reviews">
+      <div class="review-card">
+        <div class="d-flex justify-content-between align-items-start">
+          <span class="reviewer-name">Alex M.</span>
+          <span class="review-date">March 2025</span>
+        </div>
+        <div class="stars" style="font-size:13px;">★★★★★</div>
+        <p class="review-text">Exactly what I needed. The code is clean, well-organized, and the documentation is thorough. Saved me weeks of work.</p>
+      </div>
+      <div class="review-card">
+        <div class="d-flex justify-content-between align-items-start">
+          <span class="reviewer-name">Sara K.</span>
+          <span class="review-date">February 2025</span>
+        </div>
+        <div class="stars" style="font-size:13px;">★★★★★</div>
+        <p class="review-text">I've purchased a lot of templates over the years and this is easily in the top three. The attention to detail is remarkable.</p>
+      </div>
+      <div class="review-card">
+        <div class="d-flex justify-content-between align-items-start">
+          <span class="reviewer-name">James L.</span>
+          <span class="review-date">January 2025</span>
+        </div>
+        <div class="stars" style="font-size:13px;">★★★★☆</div>
+        <p class="review-text">Great theme, minor learning curve setting up the config, but the support team was very responsive and got me sorted quickly.</p>
+      </div>
+    </div>
+
+    <!-- SUPPORT TAB -->
+    <div class="tab-panel" id="tab-support">
+      <p style="font-size:15px; color:#444; max-width:600px; line-height:1.8;">
+        All themes include <strong>6 months of free support</strong> from the author, extendable to 12 months.
+        Submit a support ticket via your account dashboard and expect a response within 24–48 business hours.
+      </p>
+      <ul style="font-size:14px; color:#444; line-height:2; padding-left:18px;">
+        <li>Bugs and error fixes</li>
+        <li>Help with included features</li>
+        <li>Guidance on theme configuration</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── RELATED THEMES ─────────────────────────────────── -->
+  <div class="related-section" id="relatedSection">
+    <p class="section-label">You might also like</p>
+    <h2 class="section-title">Related Themes</h2>
+    <div class="related-grid" id="relatedThemes"></div>
+  </div>
+
+
+  <!-- ── SCRIPTS ────────────────────────────────────────── -->
+  <script src="assets/js/stateManager.js?v=1"></script>
+  <script src="assets/js/utils.js?v=2"></script>
+  <script src="assets/js/themesData.js?v=2"></script>
+  <script src="assets/js/api.js?v=2"></script>
+  <script src="assets/js/productData.js?v=2"></script>
+
+  <script>
+    /* ── 1. GET PRODUCT ID FROM URL ─────────────────── */
+    const params    = new URLSearchParams(window.location.search);
+    const productId = params.get("id");
+
+    console.log('Product ID from URL:', productId);
+
+    if (!productId) {
+      console.error('No product ID in URL');
+      showNotFound();
+    } else {
+      /* ── 2. FIND PRODUCT ────────────────────────────── */
+      // First try to find in local productDetails
+      let product = productDetails.find(p => Number(p.id) === Number(productId));
+      
+      console.log('Found in local productDetails:', product);
+      
+      // If found in local data, render it
+      if (product) {
+        console.log('✅ Rendering from local productDetails');
+        renderProductPage(product);
+      } else {
+        // Try THEMES_DATA as second fallback
+        product = window.THEMES_DATA?.find(t => Number(t.id) === Number(productId));
+        
+        if (product) {
+          console.log('✅ Rendering from THEMES_DATA');
+          renderProductPage({
+            id: product.id,
+            title: product.title,
+            price: product.price,
+            image: product.image,
+            shortDescription: product.shortDescription || product.description || 'Premium WordPress theme with professional design and features.',
+            fullDescription: product.description || product.fullDescription || 'This is a premium WordPress theme with lifetime updates and support.',
+            features: [
+              'Fully responsive design',
+              'Lifetime free updates',
+              'Premium customer support',
+              'Easy customization options',
+              'SEO optimized code',
+              'Cross-browser compatibility'
+            ],
+            previewUrl: product.previewUrl || product.preview_url || null,
+            demoUrl: product.demoUrl || product.demo_url || null
+          });
+        } else {
+          // Last resort: try backend API
+          console.log('Trying backend API...');
+          if (typeof api !== 'undefined') {
+            api.getTheme(productId).then(response => {
+              console.log('Backend response:', response);
+              if (response.success) {
+                const theme = response.data;
+                const productFromAPI = {
+                  id: theme.id,
+                  title: theme.title,
+                  price: parseFloat(theme.price),
+                  image: theme.preview_image ? 
+                    `assets/image/${theme.preview_image}` : 
+                    'assets/image/theme6.jpeg',
+                  shortDescription: theme.short_description || theme.description || 'Premium WordPress theme with professional design and features.',
+                  fullDescription: theme.description || 'This is a premium WordPress theme with lifetime updates and support.',
+                  features: theme.features || [
+                    'Fully responsive design',
+                    'Lifetime free updates',
+                    'Premium customer support',
+                    'Easy customization options',
+                    'SEO optimized code',
+                    'Cross-browser compatibility'
+                  ],
+                  previewUrl: theme.preview_url || null,
+                  demoUrl: theme.demo_url || null
+                };
+                console.log('✅ Rendering from backend API');
+                renderProductPage(productFromAPI);
+              } else {
+                console.error('Backend returned error:', response);
+                showNotFound();
+              }
+            }).catch(error => {
+              console.error('❌ Failed to fetch theme from API:', error);
+              showNotFound();
+            });
+          } else {
+            console.error('❌ API not available');
+            showNotFound();
+          }
+        }
+      }
+    }
+
+    // Function to show not found page
+    function showNotFound() {
+      document.getElementById("productGrid").outerHTML   = "";
+      document.getElementById("tabsSection").outerHTML   = "";
+      document.getElementById("relatedSection").outerHTML = "";
+
+      document.body.insertAdjacentHTML("beforeend", `
+        <div class="not-found">
+          <h2>Theme Not Found</h2>
+          <p>The theme you're looking for doesn't exist or may have been removed.</p>
+          <a href="index.html">Browse All Themes</a>
+        </div>
+      `);
+    }
+
+    // Function to render product page
+    function renderProductPage(product) {
+      /* ── Title & meta ────────────────────────────── */
+      document.title = product.title + " — ThemeMarket";
+      document.getElementById("breadcrumbTitle").textContent = product.title;
+
+      /* ── Gallery ─────────────────────────────────── */
+      const img = document.getElementById("mainImage");
+      img.src = product.image;
+      img.alt = product.title;
+
+      /* ── Details panel ───────────────────────────── */
+      document.querySelector(".product-title").textContent       = product.title;
+      document.querySelector(".product-price").textContent       = "$" + product.price;
+      document.querySelector(".product-description").textContent = product.shortDescription;
+
+      /* ── Features list ───────────────────────────── */
+      document.querySelector(".product-features").innerHTML =
+        product.features
+          .map(f => `<li><i class="bi bi-check2"></i>${f}</li>`)
+          .join("");
+
+      /* ── Preview Links ─────────────────────────── */
+      const previewLinks = document.getElementById('previewLinks');
+      const previewUrlBtn = document.getElementById('previewUrlBtn');
+      const demoUrlBtn = document.getElementById('demoUrlBtn');
+      
+      if (product.previewUrl) {
+        previewUrlBtn.href = product.previewUrl;
+        previewUrlBtn.style.display = 'inline-flex';
+      } else {
+        previewUrlBtn.style.display = 'none';
+      }
+      
+      if (product.demoUrl) {
+        demoUrlBtn.href = product.demoUrl;
+        demoUrlBtn.style.display = 'inline-flex';
+      } else {
+        demoUrlBtn.style.display = 'none';
+      }
+      
+      // Hide entire section if no URLs available
+      if (!product.previewUrl && !product.demoUrl) {
+        previewLinks.style.display = 'none';
+      }
+
+      /* ── About tab (fullDescription) ─────────────── */
+      document.getElementById("aboutContent").textContent = product.fullDescription;
+
+      /* ── Related products (exclude current) ─────── */
+      const related = productDetails
+        .filter(p => p.id != productId)
+        .slice(0, 4);
+
+      document.getElementById("relatedThemes").innerHTML = related.map(item => `
+        <a href="product.html?id=${item.id}" class="related-card">
+          <div class="rc-img-wrap">
+            <img src="${item.image}" alt="${item.title}" loading="lazy" />
+          </div>
+          <div class="rc-body">
+            <div class="rc-title">${item.title}</div>
+            <div class="rc-price">$${item.price}</div>
+            <span class="rc-view">View theme <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </a>
+      `).join("");
+
+      /* ── Add to Cart Button ───────────────────────── */
+      const buyButton = document.querySelector('.btn-buy');
+      
+      buyButton.addEventListener('click', async function() {
+        // Get current cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // Check if already in cart
+        const alreadyInCart = cart.find(item => item.id === product.id);
+        
+        if (alreadyInCart) {
+          alert('This theme is already in your cart!');
+          // Navigate to cart page
+          if (confirm('Go to cart to checkout?')) {
+            window.location.href = 'cart.html';
+          }
+          return;
+        }
+
+        // Add to cart
+        const cartItem = {
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          category: product.category || 'WordPress Theme',
+          image: product.image
+        };
+        
+        cart.push(cartItem);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        // Update button to show success
+        const originalText = buyButton.innerHTML;
+        buyButton.innerHTML = '<i class="bi bi-check-circle"></i> Added to Cart!';
+        buyButton.style.background = '#28a745';
+        
+        // Show cart count notification
+        alert(`"${product.title}" added to cart! (${cart.length} items in cart)`);
+        
+        // Change button to "Go to Cart"
+        setTimeout(() => {
+          buyButton.innerHTML = '<i class="bi bi-cart3"></i> View Cart';
+          buyButton.style.background = '#00403d';
+          buyButton.disabled = false;
+          
+          // Change click handler to go to cart
+          buyButton.onclick = function() {
+            window.location.href = 'cart.html';
+          };
+        }, 1500);
+      });
+    }
+
+    /* ── 4. TABS ────────────────────────────────────── */
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        /* Deactivate all */
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+
+        /* Activate clicked */
+        btn.classList.add("active");
+        document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+      });
+    });
+  </script>
+
+</body>
+</html>

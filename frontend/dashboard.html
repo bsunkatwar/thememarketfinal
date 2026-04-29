@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThemeMarket - My Dashboard</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #ffcc00;
+            --secondary: #00403d;
+            --dark: #212529;
+            --text: #333333;
+            --muted: #6c757d;
+            --white: #fafcfb;
+            --bg-light: #f4f7f6;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.13);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text);
+            background: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        /* ─── NAVBAR ─────────────────────────────────────── */
+        .navbar {
+            background: var(--white);
+            box-shadow: var(--shadow-md);
+            padding: 0.85rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--dark);
+            text-decoration: none;
+            gap: 0.5rem;
+        }
+
+        .brand-logo-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .brand-text {
+            background: linear-gradient(90deg, var(--secondary), #006b67);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-link {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: var(--text) !important;
+            padding: 0.5rem 1rem !important;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            width: 0; height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after { width: 80%; }
+        .nav-link:hover, .nav-link.active { color: var(--secondary) !important; }
+
+        .nav-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--secondary);
+            color: var(--primary);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem;
+            cursor: pointer;
+            border: 2px solid var(--primary);
+            transition: var(--transition);
+        }
+        
+        .nav-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,64,61,0.3);
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 6px;
+            transition: var(--transition);
+        }
+
+        .notification-btn:hover { color: var(--primary); }
+
+        .notif-dot {
+            position: absolute;
+            top: 4px; right: 4px;
+            width: 8px; height: 8px;
+            background: #e74c3c;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        /* ─── LAYOUT ─────────────────────────────────────── */
+        .dashboard-wrap {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: calc(100vh - 64px);
+        }
+
+        /* ─── SIDEBAR ────────────────────────────────────── */
+        .sidebar {
+            background: var(--secondary);
+            padding: 2rem 0;
+            position: sticky;
+            top: 64px;
+            height: calc(100vh - 64px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-section-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,204,0,0.6);
+            padding: 0 1.5rem;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border-left-color: var(--primary);
+        }
+
+        .sidebar-item.active {
+            background: rgba(255,204,0,0.12);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .sidebar-item i {
+            font-size: 1rem;
+            width: 18px;
+            text-align: center;
+        }
+
+        .sidebar-badge {
+            margin-left: auto;
+            background: var(--primary);
+            color: var(--secondary);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 20px;
+        }
+
+        .sidebar-divider {
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin: 1rem 1.5rem;
+        }
+
+        .sidebar-user {
+            margin-top: auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-avatar {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--secondary);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar-user-name {
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .sidebar-user-role {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.75rem;
+        }
+
+        /* ─── MAIN CONTENT ───────────────────────────────── */
+        .main {
+            padding: 2rem 2.5rem;
+            overflow-x: hidden;
+        }
+
+        /* ─── PAGE HEADER ────────────────────────────────── */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.6rem;
+            color: var(--secondary);
+        }
+
+        .page-header p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 2px;
+        }
+
+        .btn-primary-tm {
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-primary-tm:hover {
+            background: #002e2b;
+            color: var(--primary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-accent-tm {
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .btn-accent-tm:hover {
+            background: #e6b800;
+            color: var(--secondary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ─── STAT CARDS ─────────────────────────────────── */
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+        }
+
+        .stat-card.green::before  { background: var(--secondary); }
+        .stat-card.yellow::before { background: var(--primary); }
+        .stat-card.blue::before   { background: #3b82f6; }
+        .stat-card.orange::before { background: #f97316; }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 46px; height: 46px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.15rem;
+        }
+
+        .stat-icon.green  { background: rgba(0,64,61,0.1);  color: var(--secondary); }
+        .stat-icon.yellow { background: rgba(255,204,0,0.15); color: #c49500; }
+        .stat-icon.blue   { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .stat-icon.orange { background: rgba(249,115,22,0.1); color: #f97316; }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 20px;
+        }
+
+        .trend-up   { background: rgba(0,64,61,0.08);  color: var(--secondary); }
+        .trend-down { background: rgba(239,68,68,0.08); color: #ef4444; }
+
+        .stat-value {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--dark);
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        /* ─── CHARTS ROW ─────────────────────────────────── */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-box {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-box-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-box-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .card-box-sub {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .period-tabs {
+            display: flex;
+            gap: 0.25rem;
+            background: var(--bg-light);
+            padding: 3px;
+            border-radius: 8px;
+        }
+
+        .period-tab {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            color: var(--muted);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            background: none;
+        }
+
+        .period-tab.active {
+            background: white;
+            color: var(--secondary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ─── DONUT LEGEND ───────────────────────────────── */
+        .donut-legend {
+            margin-top: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.83rem;
+        }
+
+        .legend-dot-name {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* ─── BOTTOM GRID ────────────────────────────────── */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        /* ─── RECENT ORDERS TABLE ────────────────────────── */
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #eef2f0;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .orders-table td {
+            padding: 0.9rem 1rem;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f4f7f6;
+            vertical-align: middle;
+        }
+
+        .orders-table tr:last-child td { border-bottom: none; }
+
+        .orders-table tr:hover td {
+            background: #f9fbfa;
+        }
+
+        .order-theme-name {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .order-theme-cat {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .badge-status {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.73rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .badge-completed { background: rgba(0,64,61,0.1);  color: var(--secondary); }
+        .badge-pending   { background: rgba(255,204,0,0.2); color: #9a7a00; }
+        .badge-refunded  { background: rgba(239,68,68,0.1); color: #ef4444; }
+        .badge-processing{ background: rgba(59,130,246,0.1); color: #3b82f6; }
+
+        .order-amount {
+            font-weight: 700;
+            color: var(--secondary);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* ─── DOWNLOADS LIST ─────────────────────────────── */
+        .download-item {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.85rem 0;
+            border-bottom: 1px solid #f4f7f6;
+        }
+
+        .download-item:last-child { border-bottom: none; }
+
+        .download-thumb {
+            width: 48px; height: 36px;
+            border-radius: 6px;
+            object-fit: cover;
+            background: var(--bg-light);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .download-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .download-date {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .download-btn {
+            margin-left: auto;
+            width: 32px; height: 32px;
+            border-radius: 8px;
+            background: rgba(0,64,61,0.08);
+            color: var(--secondary);
+            border: none;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        /* ─── WISHLIST / RECOMMENDED ─────────────────────── */
+        .full-row {
+            margin-bottom: 2rem;
+        }
+
+        .mini-theme-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .mini-theme-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .mini-theme-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .mini-theme-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #e8f4f3, #f4f7f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 2rem;
+        }
+
+        .mini-theme-body {
+            padding: 0.85rem;
+        }
+
+        .mini-theme-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.2rem;
+        }
+
+        .mini-theme-cat {
+            font-size: 0.73rem;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .mini-theme-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mini-theme-price {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--secondary);
+        }
+
+        .mini-theme-stars {
+            color: var(--primary);
+            font-size: 0.7rem;
+        }
+
+        /* ─── ACTIVITY FEED ──────────────────────────────── */
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f4f7f6;
+            position: relative;
+        }
+
+        .activity-item:last-child { border-bottom: none; }
+
+        .activity-icon {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .activity-icon.purchase { background: rgba(0,64,61,0.1);  color: var(--secondary); }
+        .activity-icon.download { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .activity-icon.review   { background: rgba(255,204,0,0.2);  color: #c49500; }
+        .activity-icon.login    { background: rgba(249,115,22,0.1); color: #f97316; }
+
+        .activity-text {
+            font-size: 0.84rem;
+            line-height: 1.5;
+        }
+
+        .activity-text strong { color: var(--dark); font-weight: 600; }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* ─── PROFILE COMPLETION ─────────────────────────── */
+        .profile-card {
+            background: linear-gradient(135deg, var(--secondary) 0%, #006b67 100%);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            color: white;
+            margin-bottom: 1.25rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            right: -30px; top: -30px;
+            width: 130px; height: 130px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            right: 30px; bottom: -50px;
+            width: 180px; height: 180px;
+            border-radius: 50%;
+            background: rgba(255,204,0,0.07);
+        }
+
+        .profile-completion-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .profile-progress-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 0.4rem;
+        }
+
+        .profile-progress-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            width: 72%;
+            transition: width 1s ease;
+        }
+
+        .profile-progress-text {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .profile-todos {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .profile-todo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .profile-todo i { font-size: 0.75rem; }
+        .profile-todo.done { color: var(--primary); }
+        .profile-todo.done i { color: var(--primary); }
+
+        /* ─── SPENDING METER ─────────────────────────────── */
+        .spending-meter {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .spending-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .spending-label {
+            font-size: 0.82rem;
+            color: var(--text);
+            width: 90px;
+            flex-shrink: 0;
+        }
+
+        .spending-bar {
+            flex: 1;
+            height: 7px;
+            background: #eef2f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .spending-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .spending-amount {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--secondary);
+            width: 55px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        /* ─── QUICK ACTIONS ──────────────────────────────── */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .quick-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem;
+            border-radius: 10px;
+            background: var(--bg-light);
+            border: 1px solid #e8eeec;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .quick-action-btn:hover {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .quick-action-btn:hover .qa-icon { background: rgba(255,255,255,0.15); color: var(--primary); }
+
+        .qa-icon {
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            background: rgba(0,64,61,0.08);
+            color: var(--secondary);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .qa-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* ─── ANIMATIONS ─────────────────────────────────── */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .animate-in {
+            animation: slideUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        /* ─── SCROLLBAR ──────────────────────────────────── */
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-track { background: transparent; }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
+
+        /* ─── RESPONSIVE ─────────────────────────────────── */
+        @media (max-width: 1200px) {
+            .stat-cards { grid-template-columns: repeat(2, 1fr); }
+            .mini-theme-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-wrap { grid-template-columns: 1fr; }
+            .sidebar { position: static; height: auto; flex-direction: row; flex-wrap: wrap; padding: 0.5rem; }
+            .sidebar-section-label { display: none; }
+            .sidebar-user { display: none; }
+            .sidebar-divider { display: none; }
+            .sidebar-item { padding: 0.5rem 0.75rem; border-left: none; border-bottom: 3px solid transparent; font-size: 0.8rem; }
+            .sidebar-item.active { border-bottom-color: var(--primary); border-left: none; }
+            .charts-row, .bottom-grid { grid-template-columns: 1fr; }
+            .main { padding: 1.5rem; }
+        }
+
+        @media (max-width: 576px) {
+            .stat-cards { grid-template-columns: 1fr; }
+            .mini-theme-grid { grid-template-columns: 1fr; }
+            .quick-actions { grid-template-columns: 1fr; }
+        }
+
+        /* ─── TOOLTIP ────────────────────────────────────── */
+        [data-tip] {
+            position: relative;
+        }
+        [data-tip]:hover::before {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        /* ─── PROFILE POPUP MODAL - PRODUCTION GRADE ────── */
+        .profile-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            animation: modalFadeIn 0.25s ease;
+        }
+        
+        .profile-modal-overlay.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .profile-modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.05);
+            animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-modal-header {
+            background: linear-gradient(135deg, #00403d 0%, #006b67 100%);
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+            color: white;
+        }
+        
+        .profile-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .profile-modal-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: rotate(90deg);
+        }
+        
+        .profile-avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+        
+        .profile-modal-avatar {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background: white;
+            color: #00403d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+        
+        .profile-status-badge {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: #10b981;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        
+        .profile-modal-header h2 {
+            margin: 0 0 4px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        
+        .profile-modal-header .user-email {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+        
+        .profile-modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .profile-section {
+            margin-bottom: 24px;
+        }
+        
+        .profile-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .profile-section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        
+        .profile-info-grid {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .profile-info-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 10px;
+            border: 1px solid #f3f4f6;
+            transition: all 0.2s;
+        }
+        
+        .profile-info-item:hover {
+            background: #f3f4f6;
+            border-color: #e5e7eb;
+        }
+        
+        .profile-info-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .profile-info-icon.blue { background: #d4f5e9; color: #00403d; }
+        .profile-info-icon.green { background: #d1fae5; color: #059669; }
+        .profile-info-icon.purple { background: #fef3c7; color: #b8860b; }
+        .profile-info-icon.orange { background: #fed7aa; color: #ea580c; }
+        
+        .profile-info-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .profile-info-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 2px;
+            font-weight: 500;
+        }
+        
+        .profile-info-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #111827;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .profile-stat-card {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 16px 12px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .profile-stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00403d;
+            margin-bottom: 4px;
+        }
+        
+        .profile-stat-label {
+            font-size: 0.7rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+        
+        .profile-modal-footer {
+            padding: 16px 24px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .profile-modal-btn {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .profile-modal-btn.primary {
+            background: linear-gradient(135deg, #00403d 0%, #006b67 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 64, 61, 0.3);
+        }
+        
+        .profile-modal-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 64, 61, 0.4);
+        }
+        
+        .profile-modal-btn.secondary {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        
+        .profile-modal-btn.secondary:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+        
+        .profile-modal-btn.danger {
+            background: white;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+        
+        .profile-modal-btn.danger:hover {
+            background: #fef2f2;
+            border-color: #dc2626;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* ─── SETTINGS MODAL ────────────────────────────── */
+        .settings-modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 85vh;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(0, 0, 0, 0.05);
+            animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .settings-header {
+            background: linear-gradient(135deg, #00403d 0%, #006b67 100%);
+            padding: 24px;
+            color: white;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .settings-header-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .settings-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .settings-header p {
+            margin: 4px 0 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .settings-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .settings-close:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: rotate(90deg);
+        }
+        
+        .settings-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .settings-section {
+            margin-bottom: 28px;
+        }
+        
+        .settings-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .settings-section-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #6b7280;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .settings-section-title i {
+            font-size: 1rem;
+        }
+        
+        .setting-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: #f9fafb;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #f3f4f6;
+            transition: all 0.2s;
+        }
+        
+        .setting-item:hover {
+            background: #f3f4f6;
+            border-color: #e5e7eb;
+        }
+        
+        .setting-info {
+            flex: 1;
+        }
+        
+        .setting-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+        
+        .setting-description {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+        
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d1d5db;
+            transition: 0.3s;
+            border-radius: 28px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #00403d 0%, #006b67 100%);
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* Select Dropdown */
+        .setting-select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background: white;
+            font-size: 0.9rem;
+            color: #111827;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .setting-select:focus {
+            outline: none;
+            border-color: #00403d;
+            box-shadow: 0 0 0 3px rgba(0, 64, 61, 0.1);
+        }
+        
+        .settings-footer {
+            padding: 16px 24px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .settings-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .settings-btn.primary {
+            background: linear-gradient(135deg, #00403d 0%, #006b67 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 64, 61, 0.3);
+        }
+        
+        .settings-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 64, 61, 0.4);
+        }
+        
+        .settings-btn.secondary {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+        
+        .settings-btn.secondary:hover {
+            background: #f9fafb;
+            border-color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ NAVBAR ═════════════════════════════════ -->
+<nav class="navbar">
+    <div class="container-fluid px-4 d-flex align-items-center">
+
+        <a class="navbar-brand me-4" href="index.html">
+            <div class="brand-logo-circle">TM</div>
+            <span class="brand-text ms-2">ThemeMarket</span>
+        </a>
+
+        <div class="d-none d-md-flex align-items-center gap-1 me-auto">
+            <a href="index.html"    class="nav-link">Home</a>
+            <a href="category.html" class="nav-link">Themes</a>
+            <a href="about.html"    class="nav-link">About</a>
+            <a href="contact.html"  class="nav-link">Contact</a>
+            <a href="dashboard.html" class="nav-link active">Dashboard</a>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 ms-auto">
+            <button class="notification-btn" data-tip="Notifications">
+                <i class="fas fa-bell"></i>
+                <span class="notif-dot"></span>
+            </button>
+            <button class="notification-btn" data-tip="Settings" onclick="openSettingsModal()">
+                <i class="fas fa-cog"></i>
+            </button>
+            <div class="nav-avatar" data-tip="John Doe">JD</div>
+        </div>
+
+    </div>
+</nav>
+
+<!-- ═══════════════════════════════ LAYOUT ══════════════════════════════════ -->
+<div class="dashboard-wrap">
+
+    <!-- ─── SIDEBAR ───────────────────────────────────────────────────────── -->
+    <aside class="sidebar">
+
+        <div class="sidebar-section-label">Main</div>
+        <a href="#" class="sidebar-item active">
+            <i class="fas fa-th-large"></i> Overview
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-shopping-bag"></i> My Orders
+            <span class="sidebar-badge">12</span>
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-download"></i> Downloads
+            <span class="sidebar-badge">8</span>
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-heart"></i> Wishlist
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-star"></i> Reviews
+        </a>
+
+        <hr class="sidebar-divider">
+        <div class="sidebar-section-label">Account</div>
+        
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-bell"></i> Notifications
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-credit-card"></i> Billing
+        </a>
+        <a href="#" class="sidebar-item">
+            <i class="fas fa-shield-alt"></i> Security
+        </a>
+        
+        <hr class="sidebar-divider">
+        <div class="sidebar-section-label">Support</div>
+
+        <a href="help.html" class="sidebar-item">
+            <i class="fas fa-question-circle"></i> Help Center
+        </a>
+        <a href="contact.html" class="sidebar-item">
+            <i class="fas fa-headset"></i> Contact Us
+        </a>
+
+        <hr class="sidebar-divider">
+
+        <a href="#" class="sidebar-item" style="color: rgba(239,68,68,0.8);" onclick="handleLogout(); return false;">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+
+        <!-- User Card -->
+        <div class="sidebar-user">
+            <div class="sidebar-avatar">JD</div>
+            <div>
+                <div class="sidebar-user-name">John Doe</div>
+                <div class="sidebar-user-role">Premium Member</div>
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- ─── MAIN ───────────────────────────────────────────────────────────── -->
+    <main class="main">
+
+        <!-- Page Header -->
+        <div class="page-header animate-in">
+            <div>
+                <h1>Good morning, John 👋</h1>
+                <p>Here's what's happening with your account today.</p>
+            </div>
+            <a href="category.html" class="btn-accent-tm">
+                <i class="fas fa-plus"></i> Browse Themes
+            </a>
+        </div>
+
+        <!-- ── STAT CARDS ─────────────────────────────────── -->
+        <div class="stat-cards">
+            <div class="stat-card green animate-in delay-1">
+                <div class="stat-card-top">
+                    <div class="stat-icon green"><i class="fas fa-shopping-bag"></i></div>
+                    <span class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 12%</span>
+                </div>
+                <div class="stat-value">$1,248</div>
+                <div class="stat-label">Total Spent</div>
+            </div>
+            <div class="stat-card yellow animate-in delay-2">
+                <div class="stat-card-top">
+                    <div class="stat-icon yellow"><i class="fas fa-layer-group"></i></div>
+                    <span class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 3</span>
+                </div>
+                <div class="stat-value">24</div>
+                <div class="stat-label">Themes Purchased</div>
+            </div>
+            <div class="stat-card blue animate-in delay-3">
+                <div class="stat-card-top">
+                    <div class="stat-icon blue"><i class="fas fa-download"></i></div>
+                    <span class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 5%</span>
+                </div>
+                <div class="stat-value">68</div>
+                <div class="stat-label">Total Downloads</div>
+            </div>
+            <div class="stat-card orange animate-in delay-4">
+                <div class="stat-card-top">
+                    <div class="stat-icon orange"><i class="fas fa-star"></i></div>
+                    <span class="stat-trend trend-down"><i class="fas fa-arrow-down"></i> 1</span>
+                </div>
+                <div class="stat-value">7</div>
+                <div class="stat-label">Reviews Written</div>
+            </div>
+        </div>
+
+        <!-- ── CHARTS ROW ─────────────────────────────────── -->
+        <div class="charts-row animate-in delay-2">
+
+            <!-- Spending History Chart -->
+            <div class="card-box">
+                <div class="card-box-header">
+                    <div>
+                        <div class="card-box-title">Spending History</div>
+                        <div class="card-box-sub">Monthly purchase overview</div>
+                    </div>
+                    <div class="period-tabs">
+                        <button class="period-tab" onclick="switchChart(this,'3m')">3M</button>
+                        <button class="period-tab active" onclick="switchChart(this,'6m')">6M</button>
+                        <button class="period-tab" onclick="switchChart(this,'1y')">1Y</button>
+                    </div>
+                </div>
+                <canvas id="spendingChart" height="180"></canvas>
+            </div>
+
+            <!-- Category Donut -->
+            <div class="card-box">
+                <div class="card-box-header">
+                    <div>
+                        <div class="card-box-title">By Category</div>
+                        <div class="card-box-sub">24 themes total</div>
+                    </div>
+                </div>
+                <canvas id="categoryChart" height="180"></canvas>
+                <div class="donut-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot-name">
+                            <div class="legend-dot" style="background:#00403d"></div>
+                            <span>WordPress</span>
+                        </div>
+                        <span class="legend-value">10</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot-name">
+                            <div class="legend-dot" style="background:#ffcc00"></div>
+                            <span>eCommerce</span>
+                        </div>
+                        <span class="legend-value">7</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot-name">
+                            <div class="legend-dot" style="background:#3b82f6"></div>
+                            <span>Business</span>
+                        </div>
+                        <span class="legend-value">4</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot-name">
+                            <div class="legend-dot" style="background:#f97316"></div>
+                            <span>Creative</span>
+                        </div>
+                        <span class="legend-value">3</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ── BOTTOM GRID ────────────────────────────────── -->
+        <div class="bottom-grid animate-in delay-3">
+
+            <!-- Recent Orders -->
+            <div class="card-box">
+                <div class="card-box-header">
+                    <div>
+                        <div class="card-box-title">Recent Orders</div>
+                        <div class="card-box-sub">Your last 5 purchases</div>
+                    </div>
+                    <a href="category.htmlss" class="btn-primary-tm" style="padding:0.4rem 1rem;font-size:0.8rem;">View All</a>
+                </div>
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Theme</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="order-theme-name">Avada Business</div>
+                                <div class="order-theme-cat">WordPress</div>
+                            </td>
+                            <td style="color:var(--muted);font-size:0.82rem;">Apr 18, 2026</td>
+                            <td><span class="order-amount">$69.00</span></td>
+                            <td><span class="badge-status badge-completed">Completed</span></td>
+                            <td><button class="download-btn" style="margin-left:0"><i class="fas fa-download"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="order-theme-name">Flatsome Shop</div>
+                                <div class="order-theme-cat">eCommerce</div>
+                            </td>
+                            <td style="color:var(--muted);font-size:0.82rem;">Apr 12, 2026</td>
+                            <td><span class="order-amount">$59.00</span></td>
+                            <td><span class="badge-status badge-completed">Completed</span></td>
+                            <td><button class="download-btn" style="margin-left:0"><i class="fas fa-download"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="order-theme-name">Bridge Creative</div>
+                                <div class="order-theme-cat">Creative</div>
+                            </td>
+                            <td style="color:var(--muted);font-size:0.82rem;">Apr 5, 2026</td>
+                            <td><span class="order-amount">$75.00</span></td>
+                            <td><span class="badge-status badge-processing">Processing</span></td>
+                            <td><button class="download-btn" style="margin-left:0" disabled><i class="fas fa-hourglass-half"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="order-theme-name">Kalium Portfolio</div>
+                                <div class="order-theme-cat">Creative</div>
+                            </td>
+                            <td style="color:var(--muted);font-size:0.82rem;">Mar 29, 2026</td>
+                            <td><span class="order-amount">$49.00</span></td>
+                            <td><span class="badge-status badge-completed">Completed</span></td>
+                            <td><button class="download-btn" style="margin-left:0"><i class="fas fa-download"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="order-theme-name">Enfold Agency</div>
+                                <div class="order-theme-cat">Business</div>
+                            </td>
+                            <td style="color:var(--muted);font-size:0.82rem;">Mar 20, 2026</td>
+                            <td><span class="order-amount">$55.00</span></td>
+                            <td><span class="badge-status badge-pending">Pending</span></td>
+                            <td><button class="download-btn" style="margin-left:0" disabled><i class="fas fa-clock"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Right Column: Profile + Quick Actions + Downloads -->
+            <div>
+
+                <!-- Profile Completion -->
+                <div class="profile-card animate-in delay-3">
+                    <div class="profile-completion-title">
+                        <i class="fas fa-user-circle me-2"></i> Profile Completion
+                    </div>
+                    <div class="profile-progress-bar">
+                        <div class="profile-progress-fill"></div>
+                    </div>
+                    <div class="profile-progress-text">72% complete — 2 steps remaining</div>
+                    <div class="profile-todos">
+                        <div class="profile-todo done"><i class="fas fa-check-circle"></i> Email verified</div>
+                        <div class="profile-todo done"><i class="fas fa-check-circle"></i> Profile photo added</div>
+                        <div class="profile-todo done"><i class="fas fa-check-circle"></i> Payment method saved</div>
+                        <div class="profile-todo"><i class="far fa-circle"></i> Add billing address</div>
+                        <div class="profile-todo"><i class="far fa-circle"></i> Connect social account</div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card-box animate-in delay-4" style="margin-bottom:1.25rem;">
+                    <div class="card-box-title mb-3">Quick Actions</div>
+                    <div class="quick-actions">
+                        <a href="category.html" class="quick-action-btn">
+                            <div class="qa-icon"><i class="fas fa-search"></i></div>
+                            <span class="qa-text">Browse Themes</span>
+                        </a>
+                        <a href="#" class="quick-action-btn">
+                            <div class="qa-icon"><i class="fas fa-file-invoice"></i></div>
+                            <span class="qa-text">View Invoices</span>
+                        </a>
+                        <a href="#" class="quick-action-btn">
+                            <div class="qa-icon"><i class="fas fa-star"></i></div>
+                            <span class="qa-text">Write Review</span>
+                        </a>
+                        <a href="contact.html" class="quick-action-btn">
+                            <div class="qa-icon"><i class="fas fa-headset"></i></div>
+                            <span class="qa-text">Get Support</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Recent Downloads -->
+                <div class="card-box animate-in delay-5">
+                    <div class="card-box-header">
+                        <div class="card-box-title">Recent Downloads</div>
+                        <a href="#" style="font-size:0.8rem;color:var(--secondary);text-decoration:none;font-weight:600;">All →</a>
+                    </div>
+                    <div>
+                        <div class="download-item">
+                            <div class="download-thumb"><i class="fas fa-palette"></i></div>
+                            <div>
+                                <div class="download-name">Avada Business v7.9</div>
+                                <div class="download-date">Apr 18, 2026 · 12.4 MB</div>
+                            </div>
+                            <button class="download-btn" data-tip="Download"><i class="fas fa-download"></i></button>
+                        </div>
+                        <div class="download-item">
+                            <div class="download-thumb"><i class="fas fa-shopping-cart"></i></div>
+                            <div>
+                                <div class="download-name">Flatsome Shop v3.18</div>
+                                <div class="download-date">Apr 12, 2026 · 8.7 MB</div>
+                            </div>
+                            <button class="download-btn" data-tip="Download"><i class="fas fa-download"></i></button>
+                        </div>
+                        <div class="download-item">
+                            <div class="download-thumb"><i class="fas fa-briefcase"></i></div>
+                            <div>
+                                <div class="download-name">Kalium Portfolio v3.10</div>
+                                <div class="download-date">Mar 29, 2026 · 6.2 MB</div>
+                            </div>
+                            <button class="download-btn" data-tip="Download"><i class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ── SPENDING BY CATEGORY ───────────────────────── -->
+        <div class="full-row">
+            <div class="card-box animate-in delay-2">
+                <div class="card-box-header">
+                    <div>
+                        <div class="card-box-title">Spending Breakdown</div>
+                        <div class="card-box-sub">By theme category this year</div>
+                    </div>
+                </div>
+                <div class="spending-meter">
+                    <div class="spending-row">
+                        <span class="spending-label">WordPress</span>
+                        <div class="spending-bar"><div class="spending-fill" style="width:68%;background:var(--secondary);"></div></div>
+                        <span class="spending-amount">$490</span>
+                    </div>
+                    <div class="spending-row">
+                        <span class="spending-label">eCommerce</span>
+                        <div class="spending-bar"><div class="spending-fill" style="width:52%;background:var(--primary);"></div></div>
+                        <span class="spending-amount">$373</span>
+                    </div>
+                    <div class="spending-row">
+                        <span class="spending-label">Business</span>
+                        <div class="spending-bar"><div class="spending-fill" style="width:33%;background:#3b82f6;"></div></div>
+                        <span class="spending-amount">$240</span>
+                    </div>
+                    <div class="spending-row">
+                        <span class="spending-label">Creative</span>
+                        <div class="spending-bar"><div class="spending-fill" style="width:20%;background:#f97316;"></div></div>
+                        <span class="spending-amount">$145</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── RECOMMENDED THEMES ─────────────────────────── -->
+        <div class="full-row animate-in delay-3">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;">
+                <div>
+                    <div style="font-family:'Poppins',sans-serif;font-size:1rem;font-weight:600;color:var(--secondary);">Recommended for You</div>
+                    <div style="font-size:0.8rem;color:var(--muted);">Based on your purchase history</div>
+                </div>
+                <a href="category.html" class="btn-primary-tm">View All</a>
+            </div>
+            <div class="mini-theme-grid">
+                <div class="mini-theme-card">
+                    <div class="mini-theme-img"><i class="fas fa-store"></i></div>
+                    <div class="mini-theme-body">
+                        <div class="mini-theme-name">Shopkeeper Pro</div>
+                        <div class="mini-theme-cat">eCommerce · WooCommerce</div>
+                        <div class="mini-theme-footer">
+                            <span class="mini-theme-price">$59</span>
+                            <span class="mini-theme-stars">★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mini-theme-card">
+                    <div class="mini-theme-img"><i class="fas fa-building"></i></div>
+                    <div class="mini-theme-body">
+                        <div class="mini-theme-name">Corporate Edge</div>
+                        <div class="mini-theme-cat">Business · Bootstrap</div>
+                        <div class="mini-theme-footer">
+                            <span class="mini-theme-price">$49</span>
+                            <span class="mini-theme-stars">★★★★☆</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mini-theme-card">
+                    <div class="mini-theme-img"><i class="fas fa-camera"></i></div>
+                    <div class="mini-theme-body">
+                        <div class="mini-theme-name">Photon Portfolio</div>
+                        <div class="mini-theme-cat">Creative · Photography</div>
+                        <div class="mini-theme-footer">
+                            <span class="mini-theme-price">$39</span>
+                            <span class="mini-theme-stars">★★★★★</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mini-theme-card">
+                    <div class="mini-theme-img"><i class="fas fa-newspaper"></i></div>
+                    <div class="mini-theme-body">
+                        <div class="mini-theme-name">Newsroom Mag</div>
+                        <div class="mini-theme-cat">Blog · Magazine</div>
+                        <div class="mini-theme-footer">
+                            <span class="mini-theme-price">$45</span>
+                            <span class="mini-theme-stars">★★★★☆</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── RECENT ACTIVITY ────────────────────────────── -->
+        <div class="full-row animate-in delay-4">
+            <div class="card-box">
+                <div class="card-box-header">
+                    <div>
+                        <div class="card-box-title">Recent Activity</div>
+                        <div class="card-box-sub">Your last actions on ThemeMarket</div>
+                    </div>
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon purchase"><i class="fas fa-shopping-bag"></i></div>
+                        <div>
+                            <div class="activity-text">Purchased <strong>Avada Business v7.9</strong> for $69.00</div>
+                            <div class="activity-time">2 days ago · Apr 18, 2026</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon download"><i class="fas fa-download"></i></div>
+                        <div>
+                            <div class="activity-text">Downloaded <strong>Flatsome Shop v3.18</strong></div>
+                            <div class="activity-time">5 days ago · Apr 15, 2026</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon review"><i class="fas fa-star"></i></div>
+                        <div>
+                            <div class="activity-text">Reviewed <strong>Kalium Portfolio</strong> — gave 5 stars</div>
+                            <div class="activity-time">8 days ago · Apr 12, 2026</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon purchase"><i class="fas fa-shopping-bag"></i></div>
+                        <div>
+                            <div class="activity-text">Purchased <strong>Bridge Creative</strong> for $75.00</div>
+                            <div class="activity-time">15 days ago · Apr 5, 2026</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon login"><i class="fas fa-sign-in-alt"></i></div>
+                        <div>
+                            <div class="activity-text">Logged in from <strong>Nagpur, India</strong> on a new device</div>
+                            <div class="activity-time">18 days ago · Apr 2, 2026</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- API Client -->
+<script src="assets/js/stateManager.js?v=1"></script>
+<script src="assets/js/utils.js?v=2"></script>
+<script src="assets/js/api.js?v=2"></script>
+<script src="assets/js/reset.js?v=2"></script>
+<script src="assets/js/profile.js?v=2"></script>
+<!-- Dashboard Sync -->
+<script src="assets/js/dashboard.js?v=2"></script>
+
+<script>
+    // ── CHART: Spending History ──────────────────────────────
+    const spendingCtx = document.getElementById('spendingChart').getContext('2d');
+
+    const datasets = {
+        '3m': {
+            labels: ['Feb', 'Mar', 'Apr'],
+            data: [120, 95, 203]
+        },
+        '6m': {
+            labels: ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'],
+            data: [45, 180, 95, 120, 95, 203]
+        },
+        '1y': {
+            labels: ['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'],
+            data: [30, 0, 55, 110, 0, 70, 45, 180, 95, 120, 95, 203]
+        }
+    };
+
+    let spendingChart = new Chart(spendingCtx, {
+        type: 'line',
+        data: {
+            labels: datasets['6m'].labels,
+            datasets: [{
+                label: 'Spending ($)',
+                data: datasets['6m'].data,
+                borderColor: '#00403d',
+                backgroundColor: 'rgba(0,64,61,0.07)',
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: '#ffcc00',
+                pointBorderColor: '#00403d',
+                pointBorderWidth: 2,
+                pointRadius: 5,
+                pointHoverRadius: 7
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => ` $${ctx.parsed.y}`
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(0,0,0,0.04)' },
+                    ticks: {
+                        font: { family: "'Open Sans', sans-serif", size: 11 },
+                        callback: v => '$' + v
+                    }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { family: "'Open Sans', sans-serif", size: 11 } }
+                }
+            }
+        }
+    });
+
+    function switchChart(btn, period) {
+        document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        const d = datasets[period];
+        spendingChart.data.labels = d.labels;
+        spendingChart.data.datasets[0].data = d.data;
+        spendingChart.update();
+    }
+
+    // ── CHART: Category Donut ───────────────────────────────
+    const catCtx = document.getElementById('categoryChart').getContext('2d');
+    new Chart(catCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['WordPress', 'eCommerce', 'Business', 'Creative'],
+            datasets: [{
+                data: [10, 7, 4, 3],
+                backgroundColor: ['#00403d', '#ffcc00', '#3b82f6', '#f97316'],
+                borderWidth: 0,
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            cutout: '70%',
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => ` ${ctx.label}: ${ctx.raw} themes`
+                    }
+                }
+            }
+        }
+    });
+
+    // ── Sidebar active item highlight ───────────────────────
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            if (this.getAttribute('href') === '#') e.preventDefault();
+            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // ── Download button feedback ────────────────────────────
+    document.querySelectorAll('.download-btn:not([disabled])').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const orig = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i>';
+            this.style.background = 'var(--secondary)';
+            this.style.color = 'var(--primary)';
+            setTimeout(() => {
+                this.innerHTML = orig;
+                this.style.background = '';
+                this.style.color = '';
+            }, 1500);
+        });
+    });
+</script>
+
+<!-- ═══════════════════════════════ PROFILE POPUP MODAL ═══════════════════════════════ -->
+<div id="profileModal" class="profile-modal-overlay" onclick="closeProfileModal(event)">
+    <div class="profile-modal" onclick="event.stopPropagation()">
+        <div class="profile-modal-header">
+            <button class="profile-modal-close" onclick="closeProfileModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="profile-avatar-wrapper">
+                <div class="profile-modal-avatar" id="modalAvatar">JD</div>
+                <div class="profile-status-badge"></div>
+            </div>
+            <h2 id="modalUserName">John Doe</h2>
+            <p class="user-email" id="modalUserEmail">john@example.com</p>
+        </div>
+        
+        <div class="profile-modal-body">
+            <div class="profile-section">
+                <div class="profile-section-title">Account Information</div>
+                <div class="profile-info-grid">
+                    <div class="profile-info-item">
+                        <div class="profile-info-icon blue">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-info-content">
+                            <div class="profile-info-label">Full Name</div>
+                            <div class="profile-info-value" id="modalFullName">John Doe</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-info-item">
+                        <div class="profile-info-icon green">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="profile-info-content">
+                            <div class="profile-info-label">Email Address</div>
+                            <div class="profile-info-value" id="modalEmail">john@example.com</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-info-item">
+                        <div class="profile-info-icon purple">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="profile-info-content">
+                            <div class="profile-info-label">Account Type</div>
+                            <div class="profile-info-value" id="modalRole">USER</div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-info-item">
+                        <div class="profile-info-icon orange">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="profile-info-content">
+                            <div class="profile-info-label">Member Since</div>
+                            <div class="profile-info-value" id="modalJoined">January 2024</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-section">
+                <div class="profile-section-title">Quick Stats</div>
+                <div class="profile-stats">
+                    <div class="profile-stat-card">
+                        <div class="profile-stat-value" id="statPurchases">0</div>
+                        <div class="profile-stat-label">Purchases</div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <div class="profile-stat-value" id="statDownloads">0</div>
+                        <div class="profile-stat-label">Downloads</div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <div class="profile-stat-value" id="statOrders">0</div>
+                        <div class="profile-stat-label">Orders</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="profile-modal-footer">
+            <button class="profile-modal-btn danger" onclick="handleLogout(); closeProfileModal();">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+            <button class="profile-modal-btn secondary" onclick="closeProfileModal()">
+                <i class="fas fa-times"></i> Close
+            </button>
+            <button class="profile-modal-btn primary" onclick="window.location.href='profile.html'">
+                <i class="fas fa-external-link-alt"></i> Full Profile
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════ SETTINGS MODAL ═══════════════════════════════ -->
+<div id="settingsModal" class="profile-modal-overlay" onclick="closeSettingsModal(event)">
+    <div class="settings-modal" onclick="event.stopPropagation()">
+        <div class="settings-header">
+            <div class="settings-header-icon">
+                <i class="fas fa-cog"></i>
+            </div>
+            <div>
+                <h2>Settings</h2>
+                <p>Manage your preferences</p>
+            </div>
+            <button class="settings-close" onclick="closeSettingsModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="settings-body">
+            <!-- Appearance Settings -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <i class="fas fa-palette"></i>
+                    Appearance
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Dark Mode</div>
+                        <div class="setting-description">Switch between light and dark theme</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Compact Mode</div>
+                        <div class="setting-description">Reduce spacing for more content</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="compactModeToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Language</div>
+                        <div class="setting-description">Choose your preferred language</div>
+                    </div>
+                    <select class="setting-select" id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="hi">Hindi</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Notification Settings -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <i class="fas fa-bell"></i>
+                    Notifications
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Email Notifications</div>
+                        <div class="setting-description">Receive updates via email</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="emailNotifToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Push Notifications</div>
+                        <div class="setting-description">Browser push notifications</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="pushNotifToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Marketing Emails</div>
+                        <div class="setting-description">Receive promotional offers</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="marketingToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Privacy Settings -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <i class="fas fa-shield-alt"></i>
+                    Privacy & Security
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Profile Visibility</div>
+                        <div class="setting-description">Make your profile public</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="profileVisibilityToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Download History</div>
+                        <div class="setting-description">Keep track of your downloads</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="downloadHistoryToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Two-Factor Authentication</div>
+                        <div class="setting-description">Extra security layer (coming soon)</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" disabled>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Data Settings -->
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <i class="fas fa-database"></i>
+                    Data Management
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Auto-Save Preferences</div>
+                        <div class="setting-description">Automatically save your settings</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="autoSaveToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-label">Clear Cache</div>
+                        <div class="setting-description">Remove temporary files</div>
+                    </div>
+                    <button class="settings-btn secondary" onclick="clearCache()" style="padding: 6px 12px; font-size: 0.8rem;">
+                        <i class="fas fa-broom"></i> Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="settings-footer">
+            <button class="settings-btn secondary" onclick="resetSettings()">
+                <i class="fas fa-undo"></i> Reset
+            </button>
+            <button class="settings-btn primary" onclick="saveSettings()">
+                <i class="fas fa-check"></i> Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

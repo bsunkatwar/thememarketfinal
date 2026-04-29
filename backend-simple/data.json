@@ -1,0 +1,57 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin User",
+      "email": "admin@thememarket.com",
+      "password": "$2a$10$X7LkR3bZ9qY8vN2mP5wH8eJ4fT6gU9hK3sL1dA7cB2eR5tY8uI0oP",
+      "role": "ADMIN",
+      "createdAt": "2026-04-24T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "khushi",
+      "email": "khushi@gmail.com",
+      "password": "$2a$10$Dhi/5anLMRTC8KNEH9aaguVh8ALLf.lVBPgmLimGOrFUfOH9EWOPe",
+      "role": "USER",
+      "createdAt": "2026-04-24T14:59:24.722Z"
+    }
+  ],
+  "themes": [
+    {
+      "id": 1,
+      "title": "Kalium - Creative Theme",
+      "description": "Creative portfolio theme with modern design and stunning visual effects",
+      "price": 59,
+      "category": "Creative & Portfolio",
+      "preview_image": "kalium.jpeg",
+      "download_count": 0,
+      "is_published": true,
+      "createdAt": "2026-04-24T00:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Avada - Business Theme",
+      "description": "Professional business theme for corporate websites",
+      "price": 69,
+      "category": "Business & Corporate",
+      "preview_image": "avada.jpeg",
+      "download_count": 0,
+      "is_published": true,
+      "createdAt": "2026-04-24T00:00:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Flatsome - eCommerce Theme",
+      "description": "WooCommerce theme for online stores",
+      "price": 79,
+      "category": "eCommerce",
+      "preview_image": "flats.jpeg",
+      "download_count": 0,
+      "is_published": true,
+      "createdAt": "2026-04-24T00:00:00.000Z"
+    }
+  ],
+  "downloads": [],
+  "orders": []
+}

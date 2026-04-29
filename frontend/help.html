@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TezTecch Help Center</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/styles.css">
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+background:#f4f6fb;
+color:#333;
+}
+
+/* NAVBAR */
+
+.navbar{
+    background:#f5fafa;
+    padding:14px 40px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#181717;
+    font-size:20px;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.brand img{
+    height:38px;
+}
+
+.navbar ul{
+    list-style:none;
+    display:flex;
+    gap:30px;
+}
+
+.navbar ul li a{
+    color:#1a1818;
+    text-decoration:none;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.navbar ul li a:hover{
+    color:#ffcc00;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:80px 20px;
+background:linear-gradient(120deg,#00403d,#00403d);
+color:#ffcc00;
+}
+
+.hero h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.hero p{
+font-size:18px;
+}
+
+.search-box{
+margin-top:25px;
+}
+
+.search-box input{
+width:60%;
+padding:14px;
+border:none;
+border-radius:6px;
+font-size:16px;
+}
+
+/* SECTIONS */
+
+.section{
+padding:60px 80px;
+}
+
+.section h2{
+font-size:26px;
+margin-bottom:30px;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.card{
+background:#ffcc00;
+padding:25px;
+border-radius:8px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card h3{
+color:#2a5298;
+margin-bottom:10px;
+}
+
+.card ul{
+list-style:none;
+}
+
+.card li{
+padding:6px 0;
+font-size:14px;
+}
+
+/* POPULAR ARTICLES */
+
+.articles{
+background:white;
+padding:60px 80px;
+}
+
+.article{
+padding:12px 0;
+border-bottom:1px solid #eee;
+}
+
+.article a{
+text-decoration:none;
+color:#272a2a;
+font-weight:500;
+}
+
+/* LEARN SECTION */
+
+.learn{
+display:flex;
+flex-wrap:wrap;
+gap:30px;
+padding:60px 80px;
+}
+
+.learn-box{
+flex:1;
+background:#ffcc00;
+padding:30px;
+border-radius:8px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* FOOTER */
+
+.footer{
+background:#00312f;
+color:#ccc;
+padding:50px 80px;
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+}
+
+.footer h4{
+color:white;
+margin-bottom:10px;
+}
+
+.footer a{
+display:block;
+color:#bbb;
+text-decoration:none;
+margin:6px 0;
+font-size:14px;
+}
+
+.footer a:hover{
+color:white;
+}
+
+.footer-bottom{
+text-align:center;
+margin-top:30px;
+font-size:13px;
+}
+.nav-logo{
+height:35px;
+margin-right:8px;
+}
+
+.brand-text{
+font-weight:700;
+font-size:18px;
+}
+
+.search-box{
+position:relative;
+}
+
+.search-input{
+padding:6px 30px 6px 10px;
+border:1px solid #ddd;
+border-radius:5px;
+}
+
+.search-icon{
+position:absolute;
+right:8px;
+top:8px;
+color:#666;
+}
+
+.cart-badge{
+background:rgb(1, 59, 32);
+color:#fff;
+font-size:10px;
+padding:3px 6px;
+border-radius:50%;
+position:relative;
+top:-10px;
+left:-8px;
+}
+
+</style>
+
+</head>
+
+<body>
+    <!-- NAVBAR -->
+<div class="navbar">
+    <a href="index.html" class="brand">
+        <img src="assets/image/tez-logo.png" alt="TezTecch Logo">
+        TezTecch
+    </a>
+    <ul>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</div>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<h1>Help Center</h1>
+
+<p>Hi, how can we help you?</p>
+
+<div class="search-box">
+<input type="text" placeholder="Search help articles...">
+</div>
+
+</section>
+
+<!-- HELP CATEGORIES -->
+
+<section class="section">
+
+<h2>Help Categories</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Terms & Conditions</h3>
+<ul>
+<li>Marketplace User Terms</li>
+<li>Community Guidelines</li>
+<li>API Terms</li>
+<li>Affiliate Program Terms</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Buying</h3>
+<ul>
+<li>How to purchase an item</li>
+<li>Billing details</li>
+<li>Refund policy</li>
+<li>Marketplace sites</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Item Support</h3>
+<ul>
+<li>What is item support</li>
+<li>Contact an author</li>
+<li>Find purchase code</li>
+<li>Extend item support</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Account Settings</h3>
+<ul>
+<li>Change account details</li>
+<li>Close account</li>
+<li>Regain account access</li>
+<li>Security settings</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Licensing</h3>
+<ul>
+<li>License FAQ</li>
+<li>Using demo images</li>
+<li>SaaS product license</li>
+<li>Transfer license</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>Tax & Compliance</h3>
+<ul>
+<li>VAT & GST</li>
+<li>Sales tax information</li>
+<li>Country availability</li>
+<li>Author tax details</li>
+</ul>
+</div>
+
+</div>
+
+</section>
+
+<!-- POPULAR ARTICLES -->
+
+<section class="articles">
+
+<h2>Popular Articles</h2>
+
+<div class="article">
+<a href="helpque1.html">What is Item Support?</a>
+</div>
+
+<div class="article">
+<a href="helpque 2.html">How to contact an author?</a>
+</div>
+
+<div class="article">
+<a href="helpque 3.html">Where is my purchase code?</a>
+</div>
+
+<div class="article">
+<a href="helpque4.html">Extend or renew item support</a>
+</div>
+
+<div class="article">
+<a href="helpque 5.html">Why has my item been removed?</a>
+</div>
+
+</section>
+
+<!-- LEARN SECTION -->
+
+<section class="learn">
+
+<div class="learn-box">
+
+<h3>Learn with TezTecch</h3>
+
+<p>
+Improve your web development and design skills with tutorials,
+courses, and resources created for developers and creators.
+</p>
+
+</div>
+
+<div class="learn-box">
+
+<h3>Visit Our Blog</h3>
+
+<p>
+Discover the latest articles about web design, development,
+UI/UX trends, and digital product marketplaces.
+</p>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="footer-grid">
+
+<div>
+<h4>Category</h4>
+<a href="#">Themes</a>
+<a href="#">Templates</a>
+<a href="#">UI Kits</a>
+<a href="#">Graphics</a>
+</div>
+
+<div>
+<h4>Community</h4>
+<a href="#">Become an Author</a>
+<a href="#">Affiliate Program</a>
+<a href="#">Community Forum</a>
+</div>
+
+<div>
+<h4>Support</h4>
+<a href="help.html">Help Center</a>
+<a href="contact.html">Contact Support</a>
+<a href="careers.html">Careers</a>
+</div>
+
+<div>
+<h4>Legal</h4>
+<a href="policy.html">Privacy Policy</a>
+<a href="terms.html">Terms & Conditions</a>
+<a href="cookies.html">Cookie Policy</a>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+© 2026 TezTecch. All Rights Reserved.
+
+</div>
+
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+fetch("navbar.html")
+.then(response => response.text())
+.then(data => {
+document.getElementById("navbar").innerHTML = data;
+});
+</script>
+</body>
+</html>

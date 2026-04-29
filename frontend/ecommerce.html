@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eCommerce Themes - TezTecch</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+<style>
+body{
+    font-family:'Poppins',sans-serif;
+    background:#f8f9fa;
+}
+
+/* NAVBAR */
+.navbar{
+    background:#f5f8f7;
+}
+.navbar-brand{
+    font-weight:700;
+    color:#111 !important;
+}
+.nav-link{
+    color:#111 !important;
+    font-weight:500;
+}
+.nav-link:hover{
+    color:#ffcc00 !important;
+}
+
+/* HERO */
+.category-hero{
+    background:#00403d;
+    padding:90px 0;
+    color:#fff;
+}
+
+/* FILTER */
+.filter-box{
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+/* CARD */
+.theme-card{
+    background:#fff;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+    transition:.3s;
+}
+.theme-card:hover{
+    transform:translateY(-6px);
+}
+.theme-img{
+    height:220px;
+    object-fit:cover;
+}
+.theme-body{
+    padding:20px;
+}
+.price{
+    font-size:20px;
+    font-weight:600;
+    color:#1b2a4e;
+}
+.rating{
+    color:#ffcc00;
+}
+.badge-theme{
+    background:#ffcc00;
+    color:#000;
+    font-size:12px;
+}
+
+/* FOOTER */
+.footer{
+    background:#00403d;
+    color:#ccc;
+}
+.footer h6{
+    color:#fff;
+}
+.footer a{
+    color:#ccc;
+    text-decoration:none;
+}
+.footer a:hover{
+    color:#ffcc00;
+}
+.footer-bottom{
+    border-top:1px solid #2f3f6b;
+    margin-top:30px;
+    padding-top:15px;
+    text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<div id="navbar"></div>
+    
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+            <img src="assets/image/tez-logo.png" alt="" class="nav-logo">
+            <span class="brand-text">ThemeMarket</span>
+        </a>
+
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+
+                <!-- Categories Hover Dropdown -->
+                <li class="nav-item dropdown hover-dropdown">
+                    <a class="nav-link dropdown-toggle" href="#">
+                        Categories
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="wordpress.html">WordPress Themes</a></li>
+                        <li><a class="dropdown-item" href="ecommerce.html">eCommerce</a></li>
+                        <li><a class="dropdown-item" href="bussiness.html">Business</a></li>
+                        <li><a class="dropdown-item" href="b&c.html">Corporate</a></li>
+                        <li><a class="dropdown-item" href="creative.html">Creative & Portfolio</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="category.html">Themes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+
+            </ul>
+
+            <!-- Right Actions -->
+            <div class="d-flex align-items-center nav-actions">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Search themes...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+
+                <a href="cart.html" class="nav-cart ms-3">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge">3</span>
+                </a>
+
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="category-hero text-center mt-5">
+<div class="container">
+<h1 class="fw-bold">eCommerce WordPress Themes</h1>
+<p>Professional eCommerce templates for modern online stores</p>
+</div>
+</section>
+
+<!-- MAIN -->
+<section class="py-5">
+<div class="container">
+<div class="row">
+
+<!-- FILTER -->
+<div class="col-lg-3">
+<div class="filter-box mb-4">
+<h5 class="fw-bold mb-3">Filters</h5>
+
+<label class="form-label">Price</label>
+<select class="form-select mb-3">
+<option>All Prices</option>
+<option>Under $49</option>
+<option>$49 – $69</option>
+<option>$69+</option>
+</select>
+
+<label class="form-label">Store Type</label>
+<div class="form-check"><input class="form-check-input" type="checkbox"> Single Store</div>
+<div class="form-check"><input class="form-check-input" type="checkbox"> Multi-Vendor</div>
+
+<label class="form-label mt-3">Features</label>
+<div class="form-check"><input class="form-check-input" type="checkbox"> WooCommerce</div>
+<div class="form-check"><input class="form-check-input" type="checkbox"> Elementor</div>
+<div class="form-check"><input class="form-check-input" type="checkbox"> RTL Ready</div>
+</div>
+</div>
+
+<!-- TEMPLATES -->
+<div class="col-lg-9">
+<div class="row g-4">
+
+<!-- TEMPLATE 1 -->
+<div class="col-md-6 col-lg-4">
+<div class="theme-card">
+<img src="assets/image/Etemp1..jpeg" class="w-100 theme-img">
+<div class="theme-body">
+<span class="badge badge-theme">WooCommerce</span>
+<h6 class="mt-2">ShopMax – Online Store</h6>
+<div class="rating mb-2">
+<i class="fas fa-star"></i><i class="fas fa-star"></i>
+<i class="fas fa-star"></i><i class="fas fa-star"></i>
+<i class="fas fa-star-half-alt"></i>
+<span class="text-muted ms-1">4.8</span>
+</div>
+<div class="d-flex justify-content-between">
+<span class="price">$59</span>
+<a href="product.html" class="btn btn-sm btn-warning">Preview</a>
+</div>
+</div>
+</div>
+</div>
+
+<!-- TEMPLATE 2 -->
+<div class="col-md-6 col-lg-4">
+<div class="theme-card">
+<img src="assets/image/Etemp2.jpeg" class="w-100 theme-img">
+<div class="theme-body">
+<span class="badge badge-theme">Multi-Vendor</span>
+<h6 class="mt-2">MarketPro – Marketplace</h6>
+<div class="rating mb-2">
+<i class="fas fa-star"></i><i class="fas fa-star"></i>
+<i class="fas fa-star"></i><i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<span class="text-muted ms-1">4.9</span>
+</div>
+<div class="d-flex justify-content-between">
+<span class="price">$69</span>
+<a href="#" class="btn btn-sm btn-warning">Preview</a>
+</div>
+</div>
+</div>
+</div>
+
+<!-- TEMPLATE 3 -->
+<div class="col-md-6 col-lg-4">
+<div class="theme-card">
+<img src="assets/image/Etemp3.jpeg" class="w-100 theme-img">
+<div class="theme-body">
+<span class="badge badge-theme">Elementor</span>
+<h6 class="mt-2">StoreFlex – Modern Shop</h6>
+<div class="rating mb-2">
+<i class="fas fa-star"></i><i class="fas fa-star"></i>
+<i class="fas fa-star"></i><i class="fas fa-star"></i>
+<i class="far fa-star"></i>
+<span class="text-muted ms-1">4.6</span>
+</div>
+<div class="d-flex justify-content-between">
+<span class="price">$49</span>
+<a href="#" class="btn btn-sm btn-warning">Preview</a>
+</div>
+</div>
+</div>
+</div>
+
+<!-- TEMPLATE 4 -->
+<div class="col-md-6 col-lg-4">
+<div class="theme-card">
+<img src="assets/image/theme4.jpeg" class="w-100 theme-img">
+<div class="theme-body">
+<span class="badge badge-theme">Shop Ready</span>
+<h6 class="mt-2">Electro – Electronics Store</h6>
+<div class="rating mb-2">
+<i class="fas fa-star"></i><i class="fas fa-star"></i>
+<i class="fas fa-star"></i><i class="fas fa-star"></i>
+<i class="fas fa-star-half-alt"></i>
+<span class="text-muted ms-1">4.7</span>
+</div>
+<div class="d-flex justify-content-between">
+<span class="price">$64</span>
+<a href="#" class="btn btn-sm btn-warning">Preview</a>
+</div>
+</div>
+</div>
+</div>
+
+<!-- TEMPLATE 5 -->
+<div class="col-md-6 col-lg-4">
+<div class="theme-card">
+<img src="assets/image/c4.jpg" class="w-100 theme-img">
+<div class="theme-body">
+<span class="badge badge-theme">Fashion</span>
+<h6 class="mt-2">StyleCart – Fashion Store</h6>
+<div class="rating mb-2">
+<i class="fas fa-star"></i><i class="fas fa-star"></i>
+<i class="fas fa-star"></i><i class="fas fa-star"></i>
+<i class="fas fa-star"></i>
+<span class="text-muted ms-1">4.9</span>
+</div>
+<div class="d-flex justify-content-between">
+<span class="price">$69</span>
+<a href="#" class="btn btn-sm btn-warning">Preview</a>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer pt-5 pb-3">
+<div class="container">
+<div class="row">
+
+<div class="col-md-3">
+<h6>ThemeMarket</h6>
+<p>Premium marketplace for WordPress themes & plugins.</p>
+</div>
+
+<div class="col-md-3">
+<h6>Company</h6>
+<ul class="list-unstyled">
+<li><a href="about.html">About</a></li>
+<li><a href="careers.html">Careers</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</div>
+
+<div class="col-md-3">
+<h6>Marketplace</h6>
+<ul class="list-unstyled">
+<li><a href="wordpress.html">WordPress</a></li>
+<li><a href="ecommerce.html">eCommerce</a></li>
+<li><a href="#">Plugins</a></li>
+</ul>
+</div>
+
+<div class="col-md-3">
+<h6>Support</h6>
+<ul class="list-unstyled">
+<li><a href="help.html">Help Center</a></li>
+<li><a href="terms.html">Terms</a></li>
+<li><a href="policy.html">Privacy</a></li>
+</ul>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<p class="mb-0">© 2026 TezTecch – All Rights Reserved</p>
+</div>
+</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
